@@ -101,7 +101,7 @@ namespace MAUICRUD.MVVM.ViewModels
                 {
                     try
                     {
-                        MenuPage page = new MenuPage(repositorio, errorService);
+                        MenuPage page = new(repositorio, errorService);
                         await _navigation.PushModalAsync(page);
                     }
                     catch (Exception ex)
@@ -132,10 +132,7 @@ namespace MAUICRUD.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                if (_errorService is not null)
-                {
-                    _errorService.HandleError(ex);
-                }
+                _errorService?.HandleError(ex);
             }
         }
     }

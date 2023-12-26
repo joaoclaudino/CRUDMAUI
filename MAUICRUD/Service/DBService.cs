@@ -7,7 +7,7 @@ namespace MAUICRUD.Service
 {
     public class DBService : IDBService
     {
-        private SQLiteAsyncConnection _dbConnection = new SQLiteAsyncConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3"));
+        private readonly SQLiteAsyncConnection _dbConnection = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3"));
         public async Task<int> AddCliente(Cliente cliente)
         {
             await EnsureDBConnection();

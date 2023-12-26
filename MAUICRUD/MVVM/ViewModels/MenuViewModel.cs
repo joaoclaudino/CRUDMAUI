@@ -29,7 +29,7 @@ namespace MAUICRUD.MVVM.ViewModels
                     catch (Exception ex)
                     {
 
-                        errorService.HandleError(ex);
+                        _errorService.HandleError(ex);
                     }
                 });
                 ClienteCommand = new Command(async () =>
@@ -41,7 +41,7 @@ namespace MAUICRUD.MVVM.ViewModels
                     catch (Exception ex)
                     {
 
-                        errorService.HandleError(ex);
+                        _errorService.HandleError(ex);
                     }
                 });
                 PedidoCommand = new Command(async () =>
@@ -53,7 +53,7 @@ namespace MAUICRUD.MVVM.ViewModels
                     catch (Exception ex)
                     {
 
-                        errorService.HandleError(ex);
+                        _errorService.HandleError(ex);
                     }
                 });
 
@@ -61,7 +61,7 @@ namespace MAUICRUD.MVVM.ViewModels
             catch (Exception ex)
             {
 
-                errorService.HandleError(ex);
+                _errorService?.HandleError(ex);
             }
         }
     }

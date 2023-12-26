@@ -66,29 +66,29 @@ namespace MAUICRUD.MVVM.ViewModels
                 });
                 SairCommand = new Command(async () =>
                 {
-                    MenuPage page = new MenuPage(repositorio, errorService);
+                    MenuPage page = new(repositorio, errorService);
                     await _navigation.PushModalAsync(page);
                 });
                 CEPCommand = new Command(() =>
                 {
                     try
                     {
-                        ICEPService cEPService = new CEPService();
+                        CEPService cEPService = new();
                         CEP oCEP = cEPService.ConsultaCEP(ClienteAtual.CEP);
 
                         ClienteAtual = new Cliente()
                         {
                             Codigo = ClienteAtual.Codigo,
                             Nome = ClienteAtual.Nome,
-                            Logradouro = oCEP.logradouro
+                            Logradouro = oCEP.Logradouro
                         ,
-                            UF = oCEP.uf,
-                            Bairro = oCEP.bairro,
-                            Cidade = oCEP.localidade,
-                            IBGE = oCEP.ibge
+                            UF = oCEP.Uf,
+                            Bairro = oCEP.Bairro,
+                            Cidade = oCEP.Localidade,
+                            IBGE = oCEP.Ibge
                         ,
-                            Complemento = oCEP.complemento,
-                            CEP = oCEP.cep
+                            Complemento = oCEP.Complemento,
+                            CEP = oCEP.Cep
                         };
                     }
                     catch (Exception ex)
@@ -114,10 +114,7 @@ namespace MAUICRUD.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                if (_errorService is not null)
-                {
-                    _errorService.HandleError(ex);
-                }
+                _errorService?.HandleError(ex);
             }
         }
     }

@@ -13,7 +13,7 @@ namespace MAUICRUD.MVVM.ViewModels
         private readonly IErrorService? _errorService;
 
         [ObservableProperty]
-        private List<PedidoItem>? _pedidoItens;
+        private List<PedidoItem>? _pedidoItens = [];
 
         [ObservableProperty]
         private PedidoVM? _pedidoAtual;
@@ -50,13 +50,13 @@ namespace MAUICRUD.MVVM.ViewModels
                 _navigation = navigation;
                 _errorService = errorService;
                 PedidoAtual = new PedidoVM();
-                PedidoItens = new List<PedidoItem>();
                 PedidoItemAtual = new PedidoItem();
+                PedidoItens = [];
                 SairCommand = new Command(async () =>
                 {
                     try
                     {
-                        MenuPage page = new MenuPage(repositorio, errorService);
+                        MenuPage page = new(repositorio, errorService);
                         await _navigation.PushModalAsync(page);
                     }
                     catch (Exception ex)
@@ -112,15 +112,16 @@ namespace MAUICRUD.MVVM.ViewModels
                     try
                     {
                         IsRefreshing = true;
-                        PedidoItens.Add(new PedidoItem()
+                        PedidoItem oPedidoItem = new()
                         {
                             CodigoProduto = this.CodigoProduto,
                             DescricaoProduto = this.DescricaoProduto,
                             PrecoUnitario = this.PrecoUnitario,
                             Quantidade = this.Quantidade,
                             PesoLiquido = this.PesoLiquido
-                        });
-                        PedidoItens = PedidoItens;
+                        };
+                        PedidoItens.Add(oPedidoItem);
+                        //PedidoItens = PedidoItens;
                         //    Produto oProduto = await repositorio.GetProdutoById(CodigoProduto);
                         //    CodigoProduto = oProduto.Codigo;
                         //    DescricaoProduto = oProduto.Descricao;
@@ -142,10 +143,7 @@ namespace MAUICRUD.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                if (_errorService is not null)
-                {
-                    _errorService.HandleError(ex);
-                }
+                _errorService?.HandleError(ex);
             }
         }
 
