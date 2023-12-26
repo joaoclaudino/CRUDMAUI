@@ -8,12 +8,12 @@ public partial class MenuPage : ContentPage
     private readonly IDBService _DBService;
     private readonly IErrorService _ErrorService;
     public MenuPage(IDBService DBService, IErrorService errorService)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _DBService = DBService;
         _ErrorService = errorService;
-        BindingContext = new MenuViewModel(_DBService, Navigation,errorService);
-       // NavigationManager.PushAsync(repositorio);
+        BindingContext = new MenuViewModel(_DBService, Navigation, errorService);
+        // NavigationManager.PushAsync(repositorio);
 
         //Navigation.
     }
@@ -31,6 +31,6 @@ public partial class MenuPage : ContentPage
 
     private void Button_Clicked_2(object sender, EventArgs e)
     {
-      
+
     }
 }

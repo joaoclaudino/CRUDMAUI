@@ -1,5 +1,5 @@
-﻿using MAUICRUD.Service;
-using MAUICRUD.MVVM.View;
+﻿using MAUICRUD.MVVM.View;
+using MAUICRUD.Service;
 
 namespace MAUICRUD
 {

@@ -5,14 +5,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MAUICRUD.MVVM.ViewModels"
     Title="Produtos">
-    <ScrollView
-        Padding="0,10,0,0"
-        BackgroundColor="White"
-        HorizontalScrollBarVisibility="Always"
-        Orientation="Both"
-        VerticalOptions="StartAndExpand"
-        VerticalScrollBarVisibility="Always">
-        <VerticalStackLayout VerticalOptions="StartAndExpand">
+    <ScrollView Padding="10,0">
+
+        <VerticalStackLayout>
+            <ActivityIndicator
+                HorizontalOptions="CenterAndExpand"
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                VerticalOptions="CenterAndExpand"
+                Color="Blue" />
             <Label
                 Padding="10,10,0,0"
                 FontSize="50"
@@ -24,6 +25,7 @@
                 x:Name="codigo"
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
+                IsReadOnly="True"
                 MaximumHeightRequest="70"
                 MinimumWidthRequest="100"
                 Placeholder="Código"
@@ -42,6 +44,7 @@
                 x:Name="pesoLiquido"
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
+                Keyboard="Numeric"
                 MaximumHeightRequest="70"
                 MinimumWidthRequest="100"
                 Placeholder="Peso Líquido"
@@ -51,11 +54,12 @@
                 x:Name="precoUnitario"
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
+                Keyboard="Numeric"
                 MaximumHeightRequest="70"
                 MinimumWidthRequest="100"
                 Placeholder="Preço Unitário"
                 Text="{Binding ProdutoAtual.PrecoUnitario, Mode=TwoWay}" />
-            <HorizontalStackLayout Margin="10,0,0,0" HorizontalOptions="StartAndExpand">
+            <HorizontalStackLayout Margin="0,10,0,0">
                 <Button
                     Margin="0,0,10,0"
                     BackgroundColor="Blue"
@@ -100,16 +104,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <SwipeView>
-                            <!--<SwipeView.LeftItems>
-                                <SwipeItems>
-                                    <SwipeItem
-                                        BackgroundColor="Purple"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProdutoViewModel}}, Path=DeleteCommand}"
-                                        Text="Deleta" />
-                                </SwipeItems>
-                            </SwipeView.LeftItems>-->
                             <Grid ColumnDefinitions=".4*,.6*">
-
                                 <Label Grid.Column="0" Text="{Binding Codigo}" />
                                 <Label Grid.Column="1" Text="{Binding Descricao}" />
                                 <Button
@@ -120,9 +115,7 @@
                                     Text="Deleta"
                                     VerticalOptions="Center"
                                     WidthRequest="100" />
-
                             </Grid>
-
                         </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

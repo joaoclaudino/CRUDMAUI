@@ -7,14 +7,16 @@ namespace MAUICRUD.Service
 {
     public class DBService : IDBService
     {
-        private SQLiteAsyncConnection _dbConnection;
+        private SQLiteAsyncConnection _dbConnection = new SQLiteAsyncConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3"));
         public async Task<int> AddCliente(Cliente cliente)
         {
+            await EnsureDBConnection();
             return await _dbConnection.InsertAsync(cliente);
         }
 
         public async Task<int> AddPedido(Pedido pedido)
         {
+            await EnsureDBConnection();
             return await _dbConnection.InsertAsync(pedido);
         }
 
@@ -90,15 +92,22 @@ namespace MAUICRUD.Service
 
         private async Task SetUpDB()
         {
-            if (_dbConnection==null)
-            {
-                string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3");
-                _dbConnection = new SQLiteAsyncConnection(dbPath);
-                await _dbConnection.CreateTableAsync<Cliente>();
-                await _dbConnection.CreateTableAsync<Produto>();
-                await _dbConnection.CreateTableAsync<Pedido>();
-                await _dbConnection.CreateTableAsync<PedidoItem>();
+            //if (_dbConnection==null)
+            //{
+            //    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3");
+            //    _dbConnection = new SQLiteAsyncConnection(dbPath);
+            await _dbConnection.CreateTableAsync<Cliente>();
+            await _dbConnection.CreateTableAsync<Produto>();
+            await _dbConnection.CreateTableAsync<Pedido>();
+            await _dbConnection.CreateTableAsync<PedidoItem>();
 
+            //}
+        }
+        private async Task EnsureDBConnection()
+        {
+            if (_dbConnection == null)
+            {
+                await SetUpDB();
             }
         }
         public async Task InicializeAsync()

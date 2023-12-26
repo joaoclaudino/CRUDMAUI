@@ -1,10 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MAUICRUD.MVVM.Models
 {
@@ -18,7 +12,7 @@ namespace MAUICRUD.MVVM.Models
         public int _codigoCliente;
 
         [ObservableProperty]
-        private string _nomeCliente;
+        private string _nomeCliente = string.Empty;
         public double PrecoTotal { get; set; }
         public double PesoTotal { get; set; }
     }

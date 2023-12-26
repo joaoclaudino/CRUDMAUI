@@ -1,17 +1,17 @@
-using MAUICRUD.Service;
 using MAUICRUD.MVVM.ViewModels;
+using MAUICRUD.Service;
 
 namespace MAUICRUD.MVVM.View;
 
 public partial class ProdutoPage : ContentPage
 {
-	private readonly IDBService _DBService;
+    private readonly IDBService _DBService;
 
     public ProdutoPage(IDBService DBService, IErrorService errorService)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _DBService = DBService;
-        BindingContext = new ProdutoViewModel(_DBService,Navigation, errorService);
+        BindingContext = new ProdutoViewModel(_DBService, Navigation, errorService);
 
     }
 }

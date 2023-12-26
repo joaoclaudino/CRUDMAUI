@@ -1,9 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MAUICRUD.SQLite.Models
 {
@@ -13,7 +8,7 @@ namespace MAUICRUD.SQLite.Models
         [PrimaryKey, AutoIncrement]
         public int Codigo { get; set; }
         [MaxLength(200), NotNull]
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = string.Empty;
         [NotNull]
         public double PesoLiquido { get; set; }
         [NotNull]

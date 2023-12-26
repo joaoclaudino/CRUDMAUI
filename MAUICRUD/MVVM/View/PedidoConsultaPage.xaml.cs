@@ -7,8 +7,8 @@ public partial class PedidoConsultaPage : ContentPage
 {
     private readonly IDBService _DBService;
     public PedidoConsultaPage(IDBService DBService, IErrorService errorService)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _DBService = DBService;
         BindingContext = new PedidoConsultaViewModel(_DBService, Navigation, errorService);
     }

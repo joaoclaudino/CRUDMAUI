@@ -1,10 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MAUICRUD.SQLite.Models
 {
@@ -18,7 +12,7 @@ namespace MAUICRUD.SQLite.Models
         [NotNull]
         public int CodigoProduto { get; set; }
         [MaxLength(200), NotNull]
-        public string DescricaoProduto { get; set; }
+        public string DescricaoProduto { get; set; } = string.Empty;
         [NotNull]
         public double Quantidade { get; set; }
         [NotNull]

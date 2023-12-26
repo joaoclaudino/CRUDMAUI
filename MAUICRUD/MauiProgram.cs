@@ -17,7 +17,7 @@ namespace MAUICRUD
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<IDBService, DBService>();
             builder.Services.AddSingleton<IErrorService, ErrorService>();

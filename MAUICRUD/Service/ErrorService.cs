@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MAUICRUD.Service
+﻿namespace MAUICRUD.Service
 {
     public class ErrorService : IErrorService
     {
@@ -16,7 +10,10 @@ namespace MAUICRUD.Service
             // Display the error message to the user
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                if (App.Current is not null && App.Current.MainPage is not null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                }
             });
         }
     }
