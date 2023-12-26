@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUICRUD.MVVM.View.ClientePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MAUICRUD.MVVM.ViewModels"
+    Title="Clientes">
+    <ScrollView
+        Padding="0,10,0,0"
+        BackgroundColor="White"
+        HorizontalScrollBarVisibility="Always"
+        Orientation="Both"
+        VerticalOptions="FillAndExpand"
+        VerticalScrollBarVisibility="Always">
+        <VerticalStackLayout VerticalOptions="FillAndExpand">
+
+            <Label
+                Padding="10,10,0,0"
+                FontSize="50"
+                HorizontalOptions="Start"
+                Text="Cliente"
+                VerticalOptions="Center" />
+            <HorizontalStackLayout>
+                <Editor
+                    x:Name="codigo"
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    MaximumHeightRequest="70"
+                    MinimumWidthRequest="100"
+                    Placeholder="Código"
+                    Text="{Binding ClienteAtual.Codigo}" />
+
+                <Editor
+                    x:Name="nome"
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    MaximumHeightRequest="70"
+                    MinimumWidthRequest="300"
+                    Placeholder="Nome"
+                    Text="{Binding ClienteAtual.Nome, Mode=TwoWay}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Editor
+                    x:Name="cEP"
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    MaximumHeightRequest="70"
+                    MinimumWidthRequest="120"
+                    Placeholder="CEP"
+                    Text="{Binding ClienteAtual.CEP, Mode=TwoWay}" />
+                <Button
+                    Margin="0,0,10,0"
+                    Command="{Binding CEPCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="CEP"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <Editor
+                x:Name="logradouro"
+                Margin="10,10,0,0"
+                HorizontalOptions="Start"
+                MinimumWidthRequest="300"
+                Placeholder="Logradouro"
+                Text="{Binding ClienteAtual.Logradouro, Mode=TwoWay}" />
+            <Editor
+                x:Name="complemento"
+                Margin="10,10,0,0"
+                HorizontalOptions="Start"
+                MinimumWidthRequest="100"
+                Placeholder="Complemento"
+                Text="{Binding ClienteAtual.Complemento, Mode=TwoWay}" />
+            <HorizontalStackLayout Margin="10">
+                <Editor
+                    x:Name="bairro"
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    MinimumWidthRequest="200"
+                    Placeholder="Bairro"
+                    Text="{Binding ClienteAtual.Bairro, Mode=TwoWay}" />
+                <Editor
+                    x:Name="cidade"
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    MinimumWidthRequest="200"
+                    Placeholder="Cidade"
+                    Text="{Binding ClienteAtual.Cidade, Mode=TwoWay}" />
+                <Editor
+                    x:Name="uF"
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    MaximumHeightRequest="70"
+                    MinimumWidthRequest="100"
+                    Placeholder="UF"
+                    Text="{Binding ClienteAtual.UF, Mode=TwoWay}" />
+                <Editor
+                    x:Name="iBGE"
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    MinimumWidthRequest="100"
+                    Placeholder="IBGE"
+                    Text="{Binding ClienteAtual.IBGE, Mode=TwoWay}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Margin="10,0,0,0" HorizontalOptions="StartAndExpand">
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Blue"
+                    Command="{Binding AddCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Incluir"
+                    VerticalOptions="Center" />
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Green"
+                    Command="{Binding UpdateCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Alterar"
+                    VerticalOptions="Center" />
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Red"
+                    Command="{Binding DisplayCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Carregar"
+                    VerticalOptions="Center" />
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Purple"
+                    Command="{Binding SairCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Sair"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <CollectionView
+                Margin="0,10,0,0"
+                ItemsSource="{Binding Clientes}"
+                SelectedItem="{Binding ClienteAtual}"
+                SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <!--<SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem
+                                        BackgroundColor="Purple"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClienteViewModel}}, Path=DeleteCommand}"
+                                        Text="Deleta" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>-->
+                            <Grid ColumnDefinitions=".4*,.6*">
+
+                                <Label Grid.Column="0" Text="{Binding Codigo}" />
+                                <Label Grid.Column="1" Text="{Binding Nome}" />
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClienteViewModel}}, Path=DeleteCommand}"
+                                    HorizontalOptions="Center"
+                                    Text="Deleta"
+                                    VerticalOptions="Center"
+                                    WidthRequest="100" />
+
+                            </Grid>
+
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

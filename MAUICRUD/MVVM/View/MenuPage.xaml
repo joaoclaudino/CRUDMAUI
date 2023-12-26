@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUICRUD.MVVM.View.MenuPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Menu Principal">
+    <VerticalStackLayout>
+        <Label
+            Padding="10,10,0,0"
+            FontSize="50"
+            HorizontalOptions="Center"
+            Text="Menu Principal"
+            VerticalOptions="Center" />
+        <Button
+            Margin="10,10,10,0"
+            BackgroundColor="Green"
+            Command="{Binding ProdutoCommand}"
+            HorizontalOptions="CenterAndExpand"
+            Text="Produtos"
+            VerticalOptions="Center"
+            WidthRequest="200" />
+        <Button
+            Margin="10,10,10,0"
+            BackgroundColor="Red"
+            Command="{Binding ClienteCommand}"
+            HorizontalOptions="CenterAndExpand"
+            Text="Clientes"
+            VerticalOptions="Center"
+            WidthRequest="200" />
+        <Button
+            Margin="10,10,10,0"
+            BackgroundColor="Blue"
+            Command="{Binding PedidoCommand}"
+            HorizontalOptions="CenterAndExpand"
+            Text="Pedidos"
+            VerticalOptions="Center"
+            WidthRequest="200" />
+
+    </VerticalStackLayout>
+</ContentPage>

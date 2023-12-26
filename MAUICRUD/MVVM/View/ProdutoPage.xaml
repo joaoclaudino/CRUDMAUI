@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUICRUD.MVVM.View.ProdutoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MAUICRUD.MVVM.ViewModels"
+    Title="Produtos">
+    <ScrollView
+        Padding="0,10,0,0"
+        BackgroundColor="White"
+        HorizontalScrollBarVisibility="Always"
+        Orientation="Both"
+        VerticalOptions="StartAndExpand"
+        VerticalScrollBarVisibility="Always">
+        <VerticalStackLayout VerticalOptions="StartAndExpand">
+            <Label
+                Padding="10,10,0,0"
+                FontSize="50"
+                HorizontalOptions="Start"
+                Text="Produto"
+                VerticalOptions="Center" />
+
+            <Editor
+                x:Name="codigo"
+                Margin="10,10,0,0"
+                HorizontalOptions="Start"
+                MaximumHeightRequest="70"
+                MinimumWidthRequest="100"
+                Placeholder="Código"
+                Text="{Binding ProdutoAtual.Codigo}" />
+
+            <Editor
+                x:Name="descricao"
+                Margin="10,10,0,0"
+                HorizontalOptions="Start"
+                MaximumHeightRequest="70"
+                MinimumWidthRequest="300"
+                Placeholder="Descrição"
+                Text="{Binding ProdutoAtual.Descricao, Mode=TwoWay}" />
+
+            <Editor
+                x:Name="pesoLiquido"
+                Margin="10,10,0,0"
+                HorizontalOptions="Start"
+                MaximumHeightRequest="70"
+                MinimumWidthRequest="100"
+                Placeholder="Peso Líquido"
+                Text="{Binding ProdutoAtual.PesoLiquido, Mode=TwoWay}" />
+
+            <Editor
+                x:Name="precoUnitario"
+                Margin="10,10,0,0"
+                HorizontalOptions="Start"
+                MaximumHeightRequest="70"
+                MinimumWidthRequest="100"
+                Placeholder="Preço Unitário"
+                Text="{Binding ProdutoAtual.PrecoUnitario, Mode=TwoWay}" />
+            <HorizontalStackLayout Margin="10,0,0,0" HorizontalOptions="StartAndExpand">
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Blue"
+                    Command="{Binding AddCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Incluir"
+                    VerticalOptions="Center" />
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Violet"
+                    Command="{Binding UpdateCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Alterar"
+                    VerticalOptions="Center" />
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Green"
+                    Command="{Binding DisplayCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Carregar"
+                    VerticalOptions="Center" />
+                <Button
+                    Margin="0,0,10,0"
+                    BackgroundColor="Red"
+                    Command="{Binding SairCommand}"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="130"
+                    MinimumWidthRequest="130"
+                    Text="Sair"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <CollectionView
+                ItemsSource="{Binding Produtos}"
+                SelectedItem="{Binding ProdutoAtual}"
+                SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <!--<SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem
+                                        BackgroundColor="Purple"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProdutoViewModel}}, Path=DeleteCommand}"
+                                        Text="Deleta" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>-->
+                            <Grid ColumnDefinitions=".4*,.6*">
+
+                                <Label Grid.Column="0" Text="{Binding Codigo}" />
+                                <Label Grid.Column="1" Text="{Binding Descricao}" />
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProdutoViewModel}}, Path=DeleteCommand}"
+                                    HorizontalOptions="Center"
+                                    Text="Deleta"
+                                    VerticalOptions="Center"
+                                    WidthRequest="100" />
+
+                            </Grid>
+
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
