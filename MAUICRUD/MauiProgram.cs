@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using MauiCrud.Service;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace MauiCrud
 {
@@ -13,6 +14,7 @@ namespace MauiCrud
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .ConfigureSyncfusionCore()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

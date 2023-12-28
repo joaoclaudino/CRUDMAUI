@@ -7,7 +7,7 @@ namespace MauiCrud.Service
 {
     public class DbService : IDbService
     {
-        private readonly SQLiteAsyncConnection _dbConnection = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3"));
+        private readonly SQLiteAsyncConnection _dbConnection = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MauiCrud.db3"));
         public async Task<int> AddCliente(Cliente cliente)
         {
             await EnsureDbConnection();
@@ -94,7 +94,7 @@ namespace MauiCrud.Service
         {
             //if (_dbConnection==null)
             //{
-            //    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3");
+            //    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MauiCrud.db3");
             //    _dbConnection = new SQLiteAsyncConnection(dbPath);
             await _dbConnection.CreateTableAsync<Cliente>();
             await _dbConnection.CreateTableAsync<Produto>();

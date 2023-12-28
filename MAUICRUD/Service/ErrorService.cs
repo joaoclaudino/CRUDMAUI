@@ -6,13 +6,15 @@
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
 
-            MainThread.BeginInvokeOnMainThread(async () =>
+            async void Action()
             {
                 if (Application.Current is not null && Application.Current.MainPage is not null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
                 }
-            });
+            }
+
+            MainThread.BeginInvokeOnMainThread(Action);
         }
     }
 }

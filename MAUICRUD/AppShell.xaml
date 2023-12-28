@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:MauiCrud.MVVM.View"
     Title="MauiCrud"
-    Shell.FlyoutBehavior="Disabled">
+    FlyoutBehavior="Disabled">
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Produtos" ContentTemplate="{DataTemplate views:ProdutoPage}" />
         <ShellContent Title="Cliente" ContentTemplate="{DataTemplate views:ClientePage}" />

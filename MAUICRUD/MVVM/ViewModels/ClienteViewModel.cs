@@ -15,87 +15,203 @@ namespace MauiCrud.MVVM.ViewModels
 
         [ObservableProperty]
         private Cliente? _clienteAtual;
-
+        [ObservableProperty]
+        private bool _isLoading;
+        [ObservableProperty]
+        private int _code;
+        [ObservableProperty]
+        private string _nome = String.Empty;
+        [ObservableProperty]
+        private string _cep = String.Empty;
+        [ObservableProperty]
+        private string _logradouro = String.Empty;
+        [ObservableProperty]
+        private string _complemento = String.Empty;
+        [ObservableProperty]
+        private string _bairro = String.Empty;
+        [ObservableProperty]
+        private string _cidade = String.Empty;
+        [ObservableProperty]
+        private string _uf = String.Empty;
+        [ObservableProperty]
+        private string _ibge = String.Empty;
         public ICommand? AddCommand { get; set; }
         public ICommand? UpdateCommand { get; set; }
         public ICommand? DeleteCommand { get; set; }
         public ICommand? DisplayCommand { get; set; }
         public ICommand? SairCommand { get; set; }
         public ICommand? CepCommand { get; set; }
+        partial void OnClienteAtualChanging(Cliente? value)
+        {
+            if (value is { Code: > 0 })
+            {
+                Code = value.Code;
+                Nome = value.Nome;
+                Cep = value.Cep;
+                Logradouro = value.Logradouro;
+                Complemento = value.Complemento;
+                Bairro = value.Bairro;
+                Cidade = value.Cidade;
+                Uf = value.Uf;
+                Ibge = value.Ibge;
+            }
+        }
+        private void SetClienteAtual()
+        {
+            ClienteAtual ??= new Cliente();
+            ClienteAtual.Code = Code;
+            ClienteAtual.Nome = Nome;
+            ClienteAtual.Cep = Cep;
+            ClienteAtual.Logradouro = Logradouro;
+            ClienteAtual.Complemento = Complemento;
+            ClienteAtual.Bairro = Bairro;
+            ClienteAtual.Cidade = Cidade;
+            ClienteAtual.Uf = Uf;
+            ClienteAtual.Ibge = Ibge;
+        }
+
+        private void ClearFields()
+        {
+            Code = 0;
+            Nome =  string.Empty;
+            Cep = string.Empty;
+            Logradouro = string.Empty;
+            Complemento = string.Empty;
+            Bairro = string.Empty;
+            Cidade = string.Empty;
+            Uf = string.Empty;
+            Ibge= string.Empty;
+        }
+
         public ClienteViewModel(IDbService repository, INavigation navigation, IErrorService errorService)
         {
             try
             {
-
+                IsLoading = true;
                 _errorService = errorService ?? throw new ArgumentNullException(nameof(errorService));
                 ClienteAtual = new Cliente();
-                AddCommand = new Command(async () =>
-                {
-                    await repository.InicializeAsync();
-                    await repository.AddCliente(ClienteAtual);
-                    await Refresh(repository);
-                    ClienteAtual = new Cliente();
-                });
-                UpdateCommand = new Command(execute: async () =>
-                {
-                    await repository.InicializeAsync();
-                    await repository.UpdateCliente(ClienteAtual);
-                    await Refresh(repository);
-                    ClienteAtual = new Cliente();
-                });
-                DeleteCommand = new Command(async () =>
-                {
-                    await repository.InicializeAsync();
-                    if (App.Current is not null && App.Current.MainPage is not null)
-                    {
-                        var resposta = await App.Current.MainPage.DisplayAlert("Alerta", "Confirma Exclusão?", "Sim", "Não");
-                        if (resposta)
-                        {
-                            await repository.DeleteCliente(ClienteAtual);
-                        }
-                    }
 
-                    await Refresh(repository);
-                });
-                DisplayCommand = new Command(async () =>
+                async void Add()
                 {
-                    await repository.InicializeAsync();
-                    await Refresh(repository);
-                });
-                SairCommand = new Command(async () =>
+                    try
+                    {
+                        SetClienteAtual();
+                        await repository.InicializeAsync();
+                        await repository.AddCliente(ClienteAtual);
+                        await Refresh(repository);
+                        ClienteAtual = new Cliente();
+                        ClearFields();
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+
+                AddCommand = new Command(Add);
+
+                async void Upt()
                 {
-                    MenuPage page = new(repository, errorService);
-                    await navigation.PushModalAsync(page);
-                });
-                CepCommand = new Command(() =>
+                    try
+                    {
+                        SetClienteAtual();
+                        await repository.InicializeAsync();
+                        await repository.UpdateCliente(ClienteAtual);
+                        await Refresh(repository);
+                        ClienteAtual = new Cliente();
+                        ClearFields();
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+
+                UpdateCommand = new Command(Upt);
+
+                async void Del()
+                {
+                    try
+                    {
+                        await repository.InicializeAsync();
+                        if (Application.Current is not null && Application.Current.MainPage is not null)
+                        {
+                            var resposta =
+                                await Application.Current.MainPage.DisplayAlert("Alerta", "Confirma Exclusão?", "Sim",
+                                    "Não");
+                            if (resposta)
+                            {
+                                await repository.DeleteCliente(ClienteAtual);
+                            }
+                        }
+
+                        await Refresh(repository);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+
+                DeleteCommand = new Command(Del);
+
+                async void Display()
+                {
+                    try
+                    {
+                        await repository.InicializeAsync();
+                        await Refresh(repository);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+
+                DisplayCommand = new Command(Display);
+
+                async void Sair()
+                {
+                    try
+                    {
+                        MenuPage page = new(repository, errorService);
+                        await navigation.PushModalAsync(page);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+
+                SairCommand = new Command(Sair);
+
+                void Cep()
                 {
                     try
                     {
                         CepService cEpService = new();
-                        Cep oCep = cEpService.ConsultaCep(ClienteAtual.Cep);
+                        Cep oCep = cEpService.ConsultaCep(this.Cep);
 
-                        ClienteAtual = new Cliente()
-                        {
-                            Code = ClienteAtual.Code,
-                            Nome = ClienteAtual.Nome,
-                            Logradouro = oCep.Logradouro
-                        ,
-                            Uf = oCep.Uf,
-                            Bairro = oCep.Bairro,
-                            Cidade = oCep.Localidade,
-                            Ibge = oCep.Ibge
-                        ,
-                            Complemento = oCep.Complemento,
-                            Cep = oCep.CEp
-                        };
+                        //ClienteAtual = new Cliente()
+                        //{
+                        //    Code = Code,
+                        Nome = ClienteAtual.Nome;
+                        Logradouro = oCep.Logradouro;
+                        Uf = oCep.Uf;
+                        Bairro = oCep.Bairro;
+                        Cidade = oCep.Localidade;
+                        Ibge = oCep.Ibge;
+                        Complemento = oCep.Complemento;
+                        this.Cep= oCep.CEp;
+                            //};
                     }
                     catch (Exception ex)
                     {
-
-                        _errorService.HandleError(ex);
+                        errorService.HandleError(ex);
                     }
+                }
 
-                });
+                CepCommand = new Command(Cep);
                 DisplayCommand.Execute(null);
             }
             catch (Exception ex)
@@ -103,12 +219,19 @@ namespace MauiCrud.MVVM.ViewModels
 
                 errorService?.HandleError(ex);
             }
+            finally
+            {
+                IsLoading = false;
+            }
+
         }
         private async Task Refresh(IDbService repository)
         {
             try
             {
+                IsLoading = true;
                 Clientes = await repository.GetClientes();
+                IsLoading = false;
             }
             catch (Exception ex)
             {

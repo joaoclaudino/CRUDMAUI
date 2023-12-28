@@ -3,7 +3,6 @@ using System.Windows.Input;
 using MauiCrud.MVVM.View;
 using MauiCrud.Service;
 using MauiCrud.SQLite.Models;
-using Newtonsoft.Json.Linq;
 
 namespace MauiCrud.MVVM.ViewModels
 {
@@ -23,22 +22,20 @@ namespace MauiCrud.MVVM.ViewModels
         private bool _isLoading;
         [ObservableProperty]
         private int _code;
-        [ObservableProperty] private string _description = String.Empty;
+        [ObservableProperty] 
+        private string _description = String.Empty;
         [ObservableProperty]
         private double _netWeight;
         [ObservableProperty]
         private double _unitPrice;
         partial void OnProdutoAtualChanging(Produto? value)
         {
-            if (value != null)
+            if (value is { Code: > 0 })
             {
-                if (value.Code > 0)
-                {
-                    Code = value.Code;
-                    Description = value.Description;
-                    UnitPrice = value.UnitPrice;
-                    NetWeight = value.NetWeight;
-                }
+                Code = value.Code;
+                Description = value.Description;
+                UnitPrice = value.UnitPrice;
+                NetWeight = value.NetWeight;
             }
         }
         private void SetProdutoAtual()

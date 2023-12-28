@@ -18,8 +18,7 @@ namespace MauiCrud.MVVM.ViewModels
             {
                 var navigation1 = navigation;
                 _errorService = errorService;
-
-                ProdutoCommand = new Command(async () =>
+                async void ProdutoAction()
                 {
                     try
                     {
@@ -27,11 +26,10 @@ namespace MauiCrud.MVVM.ViewModels
                     }
                     catch (Exception ex)
                     {
-
-                        _errorService.HandleError(ex);
+                        errorService.HandleError(ex);
                     }
-                });
-                ClienteCommand = new Command(async () =>
+                }
+                async void ClienteAction()
                 {
                     try
                     {
@@ -39,11 +37,10 @@ namespace MauiCrud.MVVM.ViewModels
                     }
                     catch (Exception ex)
                     {
-
-                        _errorService.HandleError(ex);
+                        errorService.HandleError(ex);
                     }
-                });
-                PedidoCommand = new Command(async () =>
+                }
+                async void PedidoAction()
                 {
                     try
                     {
@@ -51,10 +48,12 @@ namespace MauiCrud.MVVM.ViewModels
                     }
                     catch (Exception ex)
                     {
-
-                        _errorService.HandleError(ex);
+                        errorService.HandleError(ex);
                     }
-                });
+                }
+                ProdutoCommand = new Command(ProdutoAction);
+                ClienteCommand = new Command(ClienteAction);
+                PedidoCommand = new Command(PedidoAction);
 
             }
             catch (Exception ex)

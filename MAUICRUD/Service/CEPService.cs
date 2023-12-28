@@ -8,7 +8,7 @@ namespace MauiCrud.Service
     {
         public Cep ConsultaCep(string cEp)
         {
-            var client = new RestClient($@"http://viacep.com.br/ws/{cEp}/json/");
+            var client = new RestClient($"http://viacep.com.br/ws/{cEp}/json/");
             //client.tim = -1;
             var request = new RestRequest
             {

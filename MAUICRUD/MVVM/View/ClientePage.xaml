@@ -5,15 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MauiCrud.MVVM.ViewModels"
     Title="Clientes">
-    <ScrollView
-        Padding="0,10,0,0"
-        BackgroundColor="White"
-        HorizontalScrollBarVisibility="Always"
-        Orientation="Both"
-        VerticalOptions="FillAndExpand"
-        VerticalScrollBarVisibility="Always">
-        <VerticalStackLayout VerticalOptions="FillAndExpand">
-
+    <ScrollView Padding="10,0">
+        <VerticalStackLayout>
+            <ActivityIndicator
+                HorizontalOptions="CenterAndExpand"
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                VerticalOptions="CenterAndExpand"
+                Color="Blue" />
             <Label
                 Padding="10,10,0,0"
                 FontSize="50"
@@ -24,10 +23,11 @@
                 <Editor
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
+                    IsReadOnly="True"
                     MaximumHeightRequest="70"
                     MinimumWidthRequest="100"
                     Placeholder="Código"
-                    Text="{Binding ClienteAtual.Code}" />
+                    Text="{Binding Code}" />
 
                 <Editor
                     Margin="10,10,0,0"
@@ -35,7 +35,7 @@
                     MaximumHeightRequest="70"
                     MinimumWidthRequest="300"
                     Placeholder="Nome"
-                    Text="{Binding ClienteAtual.Nome, Mode=TwoWay}" />
+                    Text="{Binding Nome, Mode=TwoWay}" />
             </HorizontalStackLayout>
             <HorizontalStackLayout>
                 <Editor
@@ -44,7 +44,7 @@
                     MaximumHeightRequest="70"
                     MinimumWidthRequest="120"
                     Placeholder="Cep"
-                    Text="{Binding ClienteAtual.Cep, Mode=TwoWay}" />
+                    Text="{Binding Cep, Mode=TwoWay}" />
                 <Button
                     Margin="0,0,10,0"
                     Command="{Binding CepCommand}"
@@ -57,41 +57,46 @@
             <Editor
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
+                IsReadOnly="True"
                 MinimumWidthRequest="300"
                 Placeholder="Logradouro"
-                Text="{Binding ClienteAtual.Logradouro, Mode=TwoWay}" />
+                Text="{Binding Logradouro, Mode=TwoWay}" />
             <Editor
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
                 MinimumWidthRequest="100"
                 Placeholder="Complemento"
-                Text="{Binding ClienteAtual.Complemento, Mode=TwoWay}" />
+                Text="{Binding Complemento, Mode=TwoWay}" />
             <HorizontalStackLayout Margin="10">
                 <Editor
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
+                    IsReadOnly="True"
                     MinimumWidthRequest="200"
                     Placeholder="Bairro"
-                    Text="{Binding ClienteAtual.Bairro, Mode=TwoWay}" />
+                    Text="{Binding Bairro, Mode=TwoWay}" />
                 <Editor
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
+                    IsReadOnly="True"
                     MinimumWidthRequest="200"
                     Placeholder="Cidade"
-                    Text="{Binding ClienteAtual.Cidade, Mode=TwoWay}" />
+                    Text="{Binding Cidade, Mode=TwoWay}" />
                 <Editor
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
+                    IsReadOnly="True"
                     MaximumHeightRequest="70"
                     MinimumWidthRequest="100"
                     Placeholder="Uf"
-                    Text="{Binding ClienteAtual.Uf, Mode=TwoWay}" />
+                    Text="{Binding Uf, Mode=TwoWay}" />
                 <Editor
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
+                    IsReadOnly="True"
                     MinimumWidthRequest="100"
                     Placeholder="Ibge"
-                    Text="{Binding ClienteAtual.Ibge, Mode=TwoWay}" />
+                    Text="{Binding Ibge, Mode=TwoWay}" />
             </HorizontalStackLayout>
             <HorizontalStackLayout Margin="10,0,0,0" HorizontalOptions="StartAndExpand">
                 <Button
