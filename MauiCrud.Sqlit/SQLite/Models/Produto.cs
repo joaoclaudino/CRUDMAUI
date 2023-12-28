@@ -14,7 +14,5 @@ namespace MauiCrud.SQLite.Models
         [NotNull]
         public double UnitPrice { get; set; }
 
-
-
     }
 }

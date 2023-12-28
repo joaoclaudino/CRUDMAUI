@@ -1,4 +1,4 @@
-﻿namespace MauiCrud.SQLite.Models
+﻿namespace MauiCrud.Models
 {
     public class Cep
     {

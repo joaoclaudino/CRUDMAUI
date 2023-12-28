@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAUICRUD", "MAUICRUD\MAUICRUD.csproj", "{5C60C51F-EFD1-4CAC-8F86-A927C5C14A7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiCrud.Sqlit", "MauiCrud.Sqlit\MauiCrud.Sqlit.csproj", "{D31F17DA-B837-4FD5-8536-626EBBFD3019}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{5C60C51F-EFD1-4CAC-8F86-A927C5C14A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C60C51F-EFD1-4CAC-8F86-A927C5C14A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C60C51F-EFD1-4CAC-8F86-A927C5C14A7E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D31F17DA-B837-4FD5-8536-626EBBFD3019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D31F17DA-B837-4FD5-8536-626EBBFD3019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D31F17DA-B837-4FD5-8536-626EBBFD3019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D31F17DA-B837-4FD5-8536-626EBBFD3019}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

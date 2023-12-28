@@ -3,7 +3,7 @@ using System.Windows.Input;
 using MauiCrud.MVVM.View;
 using MauiCrud.Service;
 using MauiCrud.SQLite.Models;
-
+using MauiCrud.Models;
 namespace MauiCrud.MVVM.ViewModels
 {
     public partial class ClienteViewModel : ObservableObject
@@ -189,7 +189,7 @@ namespace MauiCrud.MVVM.ViewModels
                 {
                     try
                     {
-                        CepService cEpService = new();
+                        ICepService cEpService = new CepService();
                         Cep oCep = cEpService.ConsultaCep(this.Cep);
 
                         //ClienteAtual = new Cliente()

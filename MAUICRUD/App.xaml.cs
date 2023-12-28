@@ -1,7 +1,6 @@
 ﻿using MauiCrud.MVVM.View;
 using MauiCrud.Service;
 using System.Globalization;
-using System.Globalization;
 
 namespace MauiCrud
 {

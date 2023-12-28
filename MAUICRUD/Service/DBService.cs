@@ -105,10 +105,7 @@ namespace MauiCrud.Service
         }
         private async Task EnsureDbConnection()
         {
-            if (_dbConnection == null)
-            {
-                await SetUpDb();
-            }
+            await SetUpDb();
         }
         public async Task InicializeAsync()
         {

@@ -1,4 +1,4 @@
-﻿using MauiCrud.SQLite.Models;
+﻿using MauiCrud.Models;
 using Newtonsoft.Json;
 using RestSharp;
 
