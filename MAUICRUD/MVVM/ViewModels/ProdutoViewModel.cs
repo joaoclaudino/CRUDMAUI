@@ -1,22 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using MAUICRUD.MVVM.View;
-using MAUICRUD.Service;
-using MAUICRUD.SQLite.Models;
 using System.Windows.Input;
+using MauiCrud.MVVM.View;
+using MauiCrud.Service;
+using MauiCrud.SQLite.Models;
+using Newtonsoft.Json.Linq;
 
-namespace MAUICRUD.MVVM.ViewModels
+namespace MauiCrud.MVVM.ViewModels
 {
     public partial class ProdutoViewModel : ObservableObject
     {
-        private readonly INavigation? _navigation;
         private readonly IErrorService? _errorService;
-
         [ObservableProperty]
         private List<Produto>? _produtos;
-
         [ObservableProperty]
         private Produto? _produtoAtual;
-
         public ICommand? AddCommand { get; set; }
         public ICommand? UpdateCommand { get; set; }
         public ICommand? DeleteCommand { get; set; }
@@ -24,92 +21,135 @@ namespace MAUICRUD.MVVM.ViewModels
         public ICommand? SairCommand { get; set; }
         [ObservableProperty]
         private bool _isLoading;
-        public ProdutoViewModel(IDBService repositorio, INavigation navigation, IErrorService errorService)
+        [ObservableProperty]
+        private int _code;
+        [ObservableProperty] private string _description = String.Empty;
+        [ObservableProperty]
+        private double _netWeight;
+        [ObservableProperty]
+        private double _unitPrice;
+        partial void OnProdutoAtualChanging(Produto? value)
+        {
+            if (value != null)
+            {
+                if (value.Code > 0)
+                {
+                    Code = value.Code;
+                    Description = value.Description;
+                    UnitPrice = value.UnitPrice;
+                    NetWeight = value.NetWeight;
+                }
+            }
+        }
+        private void SetProdutoAtual()
+        {
+            ProdutoAtual ??= new Produto();
+            ProdutoAtual.Code = Code;
+            ProdutoAtual.Description = Description;
+            ProdutoAtual.UnitPrice = UnitPrice;
+            ProdutoAtual.NetWeight = NetWeight;
+        }
+
+        private void ClearFields()
+        {
+            Code = 0;
+            Description = string.Empty;
+            UnitPrice = 0;
+            NetWeight = 0;
+        }
+        public ProdutoViewModel(IDbService repository, INavigation navigation, IErrorService errorService)
         {
             try
             {
                 IsLoading = true;
-                _navigation = navigation;
                 _errorService = errorService;
                 ProdutoAtual = new Produto();
-                AddCommand = new Command(async () =>
+                //AddCommand = new Command(execute: async () => await ExecuteAddCommandAsync(repository));
+                async void Add()
                 {
                     try
                     {
-                        await repositorio.InicializeAsync();
-                        await repositorio.AddProduto(ProdutoAtual);
-                        await Refresh(repositorio);
+                        SetProdutoAtual();
+                        await repository.InicializeAsync();
+                        await repository.AddProduto(ProdutoAtual);
+                        await Refresh(repository);
                         ProdutoAtual = new Produto();
+                        ClearFields();
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
-                });
-                UpdateCommand = new Command(async () =>
+                }
+
+                AddCommand = new Command(Add);
+
+                async void Upt()
                 {
                     try
                     {
-                        await repositorio.InicializeAsync();
-                        await repositorio.UpdateProduto(ProdutoAtual);
-                        await Refresh(repositorio);
+                        SetProdutoAtual();
+                        await repository.InicializeAsync();
+                        await repository.UpdateProduto(ProdutoAtual);
+                        await Refresh(repository);
                         ProdutoAtual = new Produto();
+                        ClearFields();
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
-                });
-                DeleteCommand = new Command(async () =>
+                }
+                UpdateCommand = new Command(Upt);
+                async void Del()
                 {
                     try
                     {
-                        await repositorio.InicializeAsync();
-                        if (App.Current is not null && App.Current.MainPage is not null)
+                        await repository.InicializeAsync();
+                        if (Application.Current is not null && Application.Current.MainPage is not null)
                         {
-                            var resposta = await App.Current.MainPage.DisplayAlert("Alerta", "Confirma Exclusão?", "Sim", "Não");
+                            var resposta = await Application.Current.MainPage.DisplayAlert("Alerta", "Confirma Exclusão?", "Sim", "Não");
                             if (resposta)
                             {
-                                await repositorio.DeleteProduto(ProdutoAtual);
+                                await repository.DeleteProduto(ProdutoAtual);
+                                ProdutoAtual = null;
                             }
                         }
 
-                        await Refresh(repositorio);
+                        await Refresh(repository);
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
-                });
-                DisplayCommand = new Command(async () =>
+                }
+                DeleteCommand = new Command(Del);
+                async void Display()
                 {
                     try
                     {
-                        await repositorio.InicializeAsync();
-                        await Refresh(repositorio);
+                        await repository.InicializeAsync();
+                        await Refresh(repository);
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
-                });
-                SairCommand = new Command(async () =>
+                }
+                DisplayCommand = new Command(Display);
+                async void Sair()
                 {
                     try
                     {
-                        MenuPage page = new(repositorio, errorService);
-                        await _navigation.PushModalAsync(page);
+                        MenuPage page = new(repository, errorService);
+                        await navigation.PushModalAsync(page);
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
-                });
+                }
+                SairCommand = new Command(Sair);
                 DisplayCommand.Execute(null);
             }
             catch (Exception ex)
@@ -121,13 +161,13 @@ namespace MAUICRUD.MVVM.ViewModels
                 IsLoading = false;
             }
         }
-        private async Task Refresh(IDBService repositorio)
+        private async Task Refresh(IDbService repository)
         {
             try
             {
                 IsLoading = true;
                 await Task.Delay(3000);
-                Produtos = await repositorio.GetProdutos();
+                Produtos = await repository.GetProdutos();
                 IsLoading = false;
             }
             catch (Exception ex)

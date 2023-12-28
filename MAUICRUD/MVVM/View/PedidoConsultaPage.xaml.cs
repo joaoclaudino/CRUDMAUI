@@ -1,15 +1,13 @@
-using MAUICRUD.MVVM.ViewModels;
-using MAUICRUD.Service;
+using MauiCrud.MVVM.ViewModels;
+using MauiCrud.Service;
 
-namespace MAUICRUD.MVVM.View;
+namespace MauiCrud.MVVM.View;
 
 public partial class PedidoConsultaPage : ContentPage
 {
-    private readonly IDBService _DBService;
-    public PedidoConsultaPage(IDBService DBService, IErrorService errorService)
+    public PedidoConsultaPage(IDbService dbService, IErrorService errorService)
     {
         InitializeComponent();
-        _DBService = DBService;
-        BindingContext = new PedidoConsultaViewModel(_DBService, Navigation, errorService);
+        BindingContext = new PedidoConsultaViewModel(dbService, Navigation, errorService);
     }
 }

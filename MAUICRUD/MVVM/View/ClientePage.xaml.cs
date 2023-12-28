@@ -1,16 +1,14 @@
-using MAUICRUD.MVVM.ViewModels;
-using MAUICRUD.Service;
+using MauiCrud.MVVM.ViewModels;
+using MauiCrud.Service;
 
-namespace MAUICRUD.MVVM.View;
+namespace MauiCrud.MVVM.View;
 
 public partial class ClientePage : ContentPage
 {
-    private readonly IDBService _DBService;
     //private 
-    public ClientePage(IDBService DBService, IErrorService errorService)
+    public ClientePage(IDbService dbService, IErrorService errorService)
     {
         InitializeComponent();
-        _DBService = DBService;
-        BindingContext = new ClienteViewModel(_DBService, Navigation, errorService);
+        BindingContext = new ClienteViewModel(dbService, Navigation, errorService);
     }
 }

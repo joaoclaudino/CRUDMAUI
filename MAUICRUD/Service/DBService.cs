@@ -1,22 +1,22 @@
 ﻿
-using MAUICRUD.SQLite.Models;
+using MauiCrud.SQLite.Models;
 using SQLite;
 
 
-namespace MAUICRUD.Service
+namespace MauiCrud.Service
 {
-    public class DBService : IDBService
+    public class DbService : IDbService
     {
         private readonly SQLiteAsyncConnection _dbConnection = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mauicrud.db3"));
         public async Task<int> AddCliente(Cliente cliente)
         {
-            await EnsureDBConnection();
+            await EnsureDbConnection();
             return await _dbConnection.InsertAsync(cliente);
         }
 
         public async Task<int> AddPedido(Pedido pedido)
         {
-            await EnsureDBConnection();
+            await EnsureDbConnection();
             return await _dbConnection.InsertAsync(pedido);
         }
 
@@ -50,9 +50,9 @@ namespace MAUICRUD.Service
             return await _dbConnection.DeleteAsync(produto);
         }
 
-        public async Task<Cliente> GetClienteById(int codigoCliente)
+        public async Task<Cliente> GetClienteById(int codeCliente)
         {
-            return await _dbConnection.Table<Cliente>().FirstOrDefaultAsync(x => x.Codigo == codigoCliente);
+            return await _dbConnection.Table<Cliente>().FirstOrDefaultAsync(x => x.Code == codeCliente);
         }
 
         public async Task<List<Cliente>> GetClientes()
@@ -60,14 +60,14 @@ namespace MAUICRUD.Service
             return await _dbConnection.Table<Cliente>().ToListAsync();
         }
 
-        public async Task<Pedido> GetPedidoById(int codigoPedido)
+        public async Task<Pedido> GetPedidoById(int codePedido)
         {
-            return await _dbConnection.Table<Pedido>().FirstOrDefaultAsync(x => x.NrPedido == codigoPedido);
+            return await _dbConnection.Table<Pedido>().FirstOrDefaultAsync(x => x.NrPedido == codePedido);
         }
 
-        public async Task<PedidoItem> GetPedidoItemById(int codigoPedidoItem)
+        public async Task<PedidoItem> GetPedidoItemById(int codePedidoItem)
         {
-            return await _dbConnection.Table<PedidoItem>().FirstOrDefaultAsync(x => x.CodigoPedidoItem == codigoPedidoItem);
+            return await _dbConnection.Table<PedidoItem>().FirstOrDefaultAsync(x => x.CodePedidoItem == codePedidoItem);
         }
 
         public async Task<List<PedidoItem>> GetPedidoItems()
@@ -80,9 +80,9 @@ namespace MAUICRUD.Service
             return await _dbConnection.Table<Pedido>().ToListAsync();
         }
 
-        public async Task<Produto> GetProdutoById(int codigoProduto)
+        public async Task<Produto> GetProdutoById(int codeProduto)
         {
-            return await _dbConnection.Table<Produto>().FirstOrDefaultAsync(x => x.Codigo == codigoProduto);
+            return await _dbConnection.Table<Produto>().FirstOrDefaultAsync(x => x.Code == codeProduto);
         }
 
         public async Task<List<Produto>> GetProdutos()
@@ -90,7 +90,7 @@ namespace MAUICRUD.Service
             return await _dbConnection.Table<Produto>().ToListAsync();
         }
 
-        private async Task SetUpDB()
+        private async Task SetUpDb()
         {
             //if (_dbConnection==null)
             //{
@@ -103,16 +103,16 @@ namespace MAUICRUD.Service
 
             //}
         }
-        private async Task EnsureDBConnection()
+        private async Task EnsureDbConnection()
         {
             if (_dbConnection == null)
             {
-                await SetUpDB();
+                await SetUpDb();
             }
         }
         public async Task InicializeAsync()
         {
-            await SetUpDB();
+            await SetUpDb();
         }
 
         public async Task<int> UpdateCliente(Cliente cliente)

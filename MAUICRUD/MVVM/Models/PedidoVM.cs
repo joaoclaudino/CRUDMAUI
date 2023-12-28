@@ -1,15 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace MAUICRUD.MVVM.Models
+namespace MauiCrud.MVVM.Models
 {
 
-    public partial class PedidoVM : ObservableObject
+    public partial class PedidoVm : ObservableObject
     {
         public int NrPedido { get; set; }
         public DateTime DataEmissao { get; set; }
 
         [ObservableProperty]
-        public int _codigoCliente;
+        private int _codeCliente;
 
         [ObservableProperty]
         private string _nomeCliente = string.Empty;

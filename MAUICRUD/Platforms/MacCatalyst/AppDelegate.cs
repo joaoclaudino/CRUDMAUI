@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace MAUICRUD
+namespace MauiCrud
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

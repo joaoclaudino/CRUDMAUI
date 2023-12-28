@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MAUICRUD.MVVM.View.ProdutoPage"
+    x:Class="MauiCrud.MVVM.View.ProdutoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:MAUICRUD.MVVM.ViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:MauiCrud.MVVM.ViewModels"
     Title="Produtos">
+    <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Green" />
+        </Style>
+    </ContentPage.Resources>
     <ScrollView Padding="10,0">
-
         <VerticalStackLayout>
             <ActivityIndicator
                 HorizontalOptions="CenterAndExpand"
@@ -14,51 +22,90 @@
                 IsVisible="{Binding IsLoading}"
                 VerticalOptions="CenterAndExpand"
                 Color="Blue" />
+
             <Label
                 Padding="10,10,0,0"
                 FontSize="50"
                 HorizontalOptions="Start"
                 Text="Produto"
                 VerticalOptions="Center" />
-
+            <Label
+                Padding="10,10,0,0"
+                FontSize="Small"
+                HorizontalOptions="Start"
+                Text="Código"
+                VerticalOptions="Center" />
             <Editor
-                x:Name="codigo"
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
                 IsReadOnly="True"
                 MaximumHeightRequest="70"
                 MinimumWidthRequest="100"
                 Placeholder="Código"
-                Text="{Binding ProdutoAtual.Codigo}" />
-
+                Text="{Binding Code}" />
+            <Label
+                Padding="10,10,0,0"
+                FontSize="Small"
+                HorizontalOptions="Start"
+                Text="Descrição"
+                VerticalOptions="Center" />
             <Editor
-                x:Name="descricao"
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
                 MaximumHeightRequest="70"
                 MinimumWidthRequest="300"
                 Placeholder="Descrição"
-                Text="{Binding ProdutoAtual.Descricao, Mode=TwoWay}" />
-
-            <Editor
-                x:Name="pesoLiquido"
-                Margin="10,10,0,0"
-                HorizontalOptions="Start"
-                Keyboard="Numeric"
-                MaximumHeightRequest="70"
-                MinimumWidthRequest="100"
-                Placeholder="Peso Líquido"
-                Text="{Binding ProdutoAtual.PesoLiquido, Mode=TwoWay}" />
-
-            <Editor
-                x:Name="precoUnitario"
-                Margin="10,10,0,0"
-                HorizontalOptions="Start"
-                Keyboard="Numeric"
-                MaximumHeightRequest="70"
-                MinimumWidthRequest="100"
-                Placeholder="Preço Unitário"
-                Text="{Binding ProdutoAtual.PrecoUnitario, Mode=TwoWay}" />
+                Text="{Binding Description, Mode=TwoWay}" />
+            <HorizontalStackLayout>
+                <Label
+                    Padding="10,10,0,0"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    Text="Peso Líquido"
+                    VerticalOptions="Center" />
+                <Entry
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    Keyboard="Numeric"
+                    MaximumHeightRequest="70"
+                    MinimumWidthRequest="100"
+                    Placeholder="Peso Líquido"
+                    Text="{Binding NetWeight, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <toolkit:NumericValidationBehavior
+                            Flags="ValidateOnValueChanged"
+                            InvalidStyle="{StaticResource InvalidEntryStyle}"
+                            MaximumDecimalPlaces="2"
+                            MaximumValue="100.0"
+                            MinimumValue="1.0"
+                            ValidStyle="{StaticResource ValidEntryStyle}" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label
+                    Padding="10,10,0,0"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    Text="Preço Unitário"
+                    VerticalOptions="Center" />
+                <Entry
+                    Margin="10,10,0,0"
+                    HorizontalOptions="Start"
+                    Keyboard="Numeric"
+                    MaximumHeightRequest="70"
+                    MinimumWidthRequest="100"
+                    Placeholder="Preço Unitário"
+                    Text="{Binding UnitPrice, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <toolkit:NumericValidationBehavior
+                            Flags="ValidateOnValueChanged"
+                            InvalidStyle="{StaticResource InvalidEntryStyle}"
+                            MaximumDecimalPlaces="2"
+                            MaximumValue="100.0"
+                            MinimumValue="1.0"
+                            ValidStyle="{StaticResource ValidEntryStyle}" />
+                    </Entry.Behaviors>
+                </Entry>
+            </HorizontalStackLayout>
             <HorizontalStackLayout Margin="0,10,0,0">
                 <Button
                     Margin="0,0,10,0"
@@ -101,14 +148,36 @@
                 ItemsSource="{Binding Produtos}"
                 SelectedItem="{Binding ProdutoAtual}"
                 SelectionMode="Single">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions="2.5*,2.5*,2.5*,2.5*">
+                        <Label
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Code" />
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="Description" />
+                        <Label
+                            Grid.Column="2"
+                            FontAttributes="Bold"
+                            Text="NetWeight" />
+                        <Label
+                            Grid.Column="3"
+                            FontAttributes="Bold"
+                            Text="UnitPrice" />
+                    </Grid>
+                </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <SwipeView>
-                            <Grid ColumnDefinitions=".4*,.6*">
-                                <Label Grid.Column="0" Text="{Binding Codigo}" />
-                                <Label Grid.Column="1" Text="{Binding Descricao}" />
+                            <Grid ColumnDefinitions="2.5*,2.5*,2.5*,2.5*">
+                                <Label Grid.Column="0" Text="{Binding Code}" />
+                                <Label Grid.Column="1" Text="{Binding Description}" />
+                                <Label Grid.Column="2" Text="{Binding NetWeight}" />
+                                <Label Grid.Column="3" Text="{Binding UnitPrice}" />
                                 <Button
-                                    Grid.Column="2"
+                                    Grid.Column="4"
                                     Margin="1"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProdutoViewModel}}, Path=DeleteCommand}"
                                     HorizontalOptions="Center"

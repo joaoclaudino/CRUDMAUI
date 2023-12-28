@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using MAUICRUD.MVVM.View;
-using MAUICRUD.Service;
-using MAUICRUD.SQLite.Models;
 using System.Windows.Input;
+using MauiCrud.MVVM.View;
+using MauiCrud.Service;
+using MauiCrud.SQLite.Models;
 
-namespace MAUICRUD.MVVM.ViewModels
+namespace MauiCrud.MVVM.ViewModels
 {
     public partial class PedidoConsultaViewModel : ObservableObject
     {
@@ -22,7 +22,7 @@ namespace MAUICRUD.MVVM.ViewModels
         public ICommand? DeleteCommand { get; set; }
         public ICommand? DisplayCommand { get; set; }
         public ICommand? SairCommand { get; set; }
-        public PedidoConsultaViewModel(IDBService repositorio, INavigation navigation, IErrorService errorService)
+        public PedidoConsultaViewModel(IDbService repository, INavigation navigation, IErrorService errorService)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace MAUICRUD.MVVM.ViewModels
                 {
                     try
                     {
-                        PedidoCadastroPage page = new(repositorio, errorService);
+                        PedidoCadastroPage page = new(repository, errorService);
                         await _navigation.PushModalAsync(page);
                     }
                     catch (Exception ex)
@@ -47,7 +47,7 @@ namespace MAUICRUD.MVVM.ViewModels
                 {
                     try
                     {
-                        MenuPage page = new(repositorio, errorService);
+                        MenuPage page = new(repository, errorService);
                         await _navigation.PushModalAsync(page);
                     }
                     catch (Exception ex)
@@ -61,8 +61,8 @@ namespace MAUICRUD.MVVM.ViewModels
                 {
                     try
                     {
-                        await repositorio.InicializeAsync();
-                        await Refresh(repositorio);
+                        await repository.InicializeAsync();
+                        await Refresh(repository);
                     }
                     catch (Exception ex)
                     {
@@ -79,7 +79,7 @@ namespace MAUICRUD.MVVM.ViewModels
                 errorService.HandleError(ex);
             }
         }
-        private async Task Refresh(IDBService repositorio)
+        private async Task Refresh(IDbService repositorio)
         {
             try
             {

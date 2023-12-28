@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace MAUICRUD.SQLite.Models
+namespace MauiCrud.SQLite.Models
 {
     [Table("Pedidos")]
     public class Pedido
@@ -8,15 +8,15 @@ namespace MAUICRUD.SQLite.Models
         [PrimaryKey, AutoIncrement]
         public int NrPedido { get; set; }
         [NotNull]
-        public DateTime DataEmissao { get; set; }
+        public DateTime EmissionData { get; set; }
         [NotNull]
-        public int CodigoCliente { get; set; }
+        public int CodeCliente { get; set; }
         [MaxLength(200), NotNull]
-        public string NomeCliente { get; set; } = string.Empty;
+        public string NameClient { get; set; } = string.Empty;
         [NotNull]
-        public double PrecoTotal { get; set; }
+        public double TotalPrice { get; set; }
         [NotNull]
-        public double PesoTotal { get; set; }
+        public double TotalWeight { get; set; }
 
     }
 }

@@ -1,16 +1,16 @@
-﻿using MAUICRUD.MVVM.View;
-using MAUICRUD.Service;
+﻿using MauiCrud.MVVM.View;
+using MauiCrud.Service;
 
-namespace MAUICRUD
+namespace MauiCrud
 {
     public partial class App : Application
     {
-        public App(IDBService DBService, IErrorService errorService)
+        public App(IDbService dbService, IErrorService errorService)
         {
             InitializeComponent();
 
             //MainPage = new AppShell();
-            MainPage = new MenuPage(DBService, errorService);
+            MainPage = new MenuPage(dbService, errorService);
         }
     }
 }

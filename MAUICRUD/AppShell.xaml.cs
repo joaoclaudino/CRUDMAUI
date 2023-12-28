@@ -1,4 +1,4 @@
-﻿namespace MAUICRUD
+﻿namespace MauiCrud
 {
     public partial class AppShell : Shell
     {

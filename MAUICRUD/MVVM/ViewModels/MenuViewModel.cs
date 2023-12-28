@@ -1,30 +1,29 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using MAUICRUD.MVVM.View;
-using MAUICRUD.Service;
 using System.Windows.Input;
-namespace MAUICRUD.MVVM.ViewModels
+using MauiCrud.MVVM.View;
+using MauiCrud.Service;
+
+namespace MauiCrud.MVVM.ViewModels
 {
     public class MenuViewModel : ObservableObject
     {
-        private readonly INavigation? _navigation;
         private readonly IErrorService? _errorService;
         public ICommand? ProdutoCommand { get; set; }
         public ICommand? ClienteCommand { get; set; }
         public ICommand? PedidoCommand { get; set; }
-        public ICommand? CEPCommand { get; set; }
 
-        public MenuViewModel(IDBService repositorio, INavigation navigation, IErrorService errorService)
+        public MenuViewModel(IDbService repository, INavigation navigation, IErrorService errorService)
         {
             try
             {
-                _navigation = navigation;
+                var navigation1 = navigation;
                 _errorService = errorService;
 
                 ProdutoCommand = new Command(async () =>
                 {
                     try
                     {
-                        await _navigation.PushModalAsync(new ProdutoPage(repositorio, errorService));
+                        await navigation1.PushModalAsync(new ProdutoPage(repository, errorService));
                     }
                     catch (Exception ex)
                     {
@@ -36,7 +35,7 @@ namespace MAUICRUD.MVVM.ViewModels
                 {
                     try
                     {
-                        await _navigation.PushModalAsync(new ClientePage(repositorio, errorService));
+                        await navigation1.PushModalAsync(new ClientePage(repository, errorService));
                     }
                     catch (Exception ex)
                     {
@@ -48,7 +47,7 @@ namespace MAUICRUD.MVVM.ViewModels
                 {
                     try
                     {
-                        await _navigation.PushModalAsync(new PedidoConsultaPage(repositorio, errorService));
+                        await navigation1.PushModalAsync(new PedidoConsultaPage(repository, errorService));
                     }
                     catch (Exception ex)
                     {

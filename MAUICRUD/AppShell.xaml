@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="MAUICRUD.AppShell"
+    x:Class="MauiCrud.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MAUICRUD"
-    xmlns:views="clr-namespace:MAUICRUD.MVVM.View"
-    Shell.FlyoutBehavior="Disabled"
-    Title="MAUICRUD">
+    xmlns:views="clr-namespace:MauiCrud.MVVM.View"
+    Title="MauiCrud"
+    Shell.FlyoutBehavior="Disabled">
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Produtos"
-                      
-                      ContentTemplate="{DataTemplate views:ProdutoPage}" />
-        <ShellContent Title="Cliente"
-                      
-                      ContentTemplate="{DataTemplate views:ClientePage}" />
-                            
+        <ShellContent Title="Produtos" ContentTemplate="{DataTemplate views:ProdutoPage}" />
+        <ShellContent Title="Cliente" ContentTemplate="{DataTemplate views:ClientePage}" />
+
     </FlyoutItem>
 </Shell>

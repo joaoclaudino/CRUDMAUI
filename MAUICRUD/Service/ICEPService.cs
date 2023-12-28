@@ -1,9 +1,9 @@
-﻿using MAUICRUD.SQLite.Models;
+﻿using MauiCrud.SQLite.Models;
 
-namespace MAUICRUD.Service
+namespace MauiCrud.Service
 {
-    public interface ICEPService
+    public interface ICepService
     {
-        CEP ConsultaCEP(string cEP);
+        Cep ConsultaCep(string cEp);
     }
 }

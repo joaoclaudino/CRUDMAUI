@@ -1,28 +1,28 @@
 ﻿using SQLite;
 
-namespace MAUICRUD.SQLite.Models
+namespace MauiCrud.SQLite.Models
 {
     [Table("PedidoItens")]
     public class PedidoItem
     {
         [PrimaryKey, AutoIncrement]
-        public int CodigoPedidoItem { get; set; }
+        public int CodePedidoItem { get; set; }
         [NotNull]
         public int NrPedido { get; set; }
         [NotNull]
-        public int CodigoProduto { get; set; }
+        public int CodeProduto { get; set; }
         [MaxLength(200), NotNull]
-        public string DescricaoProduto { get; set; } = string.Empty;
+        public string ProductDescription { get; set; } = string.Empty;
         [NotNull]
-        public double Quantidade { get; set; }
+        public double Quantity { get; set; }
         [NotNull]
-        public double PrecoUnitario { get; set; }
+        public double UnitPrice { get; set; }
         [NotNull]
-        public double PesoLiquido { get; set; }
+        public double NetWeight { get; set; }
         [NotNull]
-        public double PrecoTotal { get; set; }
+        public double TotalPrice { get; set; }
         [NotNull]
-        public double PesoTotal { get; set; }
+        public double TotalWeight { get; set; }
 
     }
 }

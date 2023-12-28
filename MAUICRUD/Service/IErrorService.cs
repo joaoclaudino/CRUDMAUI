@@ -1,4 +1,4 @@
-﻿namespace MAUICRUD.Service
+﻿namespace MauiCrud.Service
 {
     public interface IErrorService
     {

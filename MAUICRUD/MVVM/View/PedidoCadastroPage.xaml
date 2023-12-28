@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MAUICRUD.MVVM.View.PedidoCadastroPage"
+    x:Class="MauiCrud.MVVM.View.PedidoCadastroPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
@@ -36,7 +36,7 @@
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="95"
                             Text="Data de Emissão" />
-                        <DatePicker Date="{Binding PedidoAtual.DataEmissao, Mode=TwoWay}" />
+                        <DatePicker Date="{Binding PedidoAtual.EmissionData, Mode=TwoWay}" />
 
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
@@ -46,7 +46,7 @@
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="100"
                             Placeholder="Código do Cliente"
-                            Text="{Binding CodigoCliente, Mode=TwoWay}" />
+                            Text="{Binding CodeCliente, Mode=TwoWay}" />
                         <Button
                             Margin="10,10,0,10"
                             BackgroundColor="Red"
@@ -58,7 +58,7 @@
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="300"
                             Placeholder="Nome do Cliente"
-                            Text="{Binding NomeCliente, Mode=TwoWay}" />
+                            Text="{Binding NameClient, Mode=TwoWay}" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
                         <Editor
@@ -67,14 +67,14 @@
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="100"
                             Placeholder="Preço Total"
-                            Text="{Binding PedidoAtual.PrecoTotal, Mode=TwoWay}" />
+                            Text="{Binding PedidoAtual.TotalPrice, Mode=TwoWay}" />
                         <Editor
                             Margin="10,10,0,0"
                             HorizontalOptions="Start"
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="300"
-                            Placeholder="PesoTotal"
-                            Text="{Binding ClienteAtual.PesoTotal, Mode=TwoWay}" />
+                            Placeholder="TotalWeight"
+                            Text="{Binding ClienteAtual.TotalWeight, Mode=TwoWay}" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout BackgroundColor="OrangeRed">
@@ -84,7 +84,7 @@
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="100"
                             Placeholder="Código do Produto"
-                            Text="{Binding CodigoProduto, Mode=TwoWay}" />
+                            Text="{Binding CodeProduto, Mode=TwoWay}" />
                         <Button
                             Margin="10,10,0,10"
                             BackgroundColor="Blue"
@@ -96,28 +96,28 @@
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="150"
                             Placeholder="Descrição do Produto"
-                            Text="{Binding DescricaoProduto, Mode=TwoWay}" />
+                            Text="{Binding ProductDescription, Mode=TwoWay}" />
                         <Editor
                             Margin="10,10,0,0"
                             HorizontalOptions="Start"
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="100"
-                            Placeholder="Quantidade"
-                            Text="{Binding Quantidade, Mode=TwoWay}" />
+                            Placeholder="Quantity"
+                            Text="{Binding Quantity, Mode=TwoWay}" />
                         <Editor
                             Margin="10,10,0,0"
                             HorizontalOptions="Start"
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="100"
                             Placeholder="Preço"
-                            Text="{Binding PrecoUnitario, Mode=TwoWay}" />
+                            Text="{Binding UnitPrice, Mode=TwoWay}" />
                         <Editor
                             Margin="10,10,0,0"
                             HorizontalOptions="Start"
                             MaximumHeightRequest="70"
                             MinimumWidthRequest="100"
                             Placeholder="Peso Líquido"
-                            Text="{Binding PesoLiquido, Mode=TwoWay}" />
+                            Text="{Binding NetWeight, Mode=TwoWay}" />
                         <Button
                             Margin="10,10,0,10"
                             BackgroundColor="Brown"
@@ -134,7 +134,6 @@
         </FlexLayout>
 
         <dg:DataGrid
-            x:Name="_dataGrid1"
             Grid.Row="1"
             ActiveRowColor="Orange"
             BorderColor="Blue"
@@ -155,7 +154,7 @@
                 <dg:DataGridColumn
                     Title="Código Item"
                     Width="100"
-                    PropertyName="CodigoPedidoItem" />
+                    PropertyName="CodePedidoItem" />
                 <dg:DataGridColumn
                     Title="Nr Pedido"
                     Width="0.5*"
@@ -163,24 +162,24 @@
                 <dg:DataGridColumn
                     Title="Código Produto"
                     Width="0.5*"
-                    PropertyName="Codigo Produto" />
+                    PropertyName="CodeProduto" />
                 <dg:DataGridColumn
                     Title="Descrição Produto"
                     Width="0.5*"
-                    PropertyName="DescricaoProduto" />
+                    PropertyName="ProductDescription" />
                 <dg:DataGridColumn
-                    Title="Quantidade"
+                    Title="Quantity"
                     Width="0.5*"
-                    PropertyName="Quantidade" />
+                    PropertyName="Quantity" />
 
                 <dg:DataGridColumn
                     Title="Preço Unitário"
                     Width="0.5*"
-                    PropertyName="PrecoUnitario" />
+                    PropertyName="UnitPrice" />
                 <dg:DataGridColumn
-                    Title="PesoLiquido"
+                    Title="NetWeight"
                     Width="0.5*"
-                    PropertyName="PesoLiquido" />
+                    PropertyName="NetWeight" />
                 <!--<dg:DataGridColumn Title="Win %" PropertyName="Percentage" Width="0.75*" StringFormat="{}{0:0.00}" />-->
             </dg:DataGrid.Columns>
             <dg:DataGrid.RowsBackgroundColorPalette>

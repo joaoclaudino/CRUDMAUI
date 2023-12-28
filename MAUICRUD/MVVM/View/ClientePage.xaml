@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MAUICRUD.MVVM.View.ClientePage"
+    x:Class="MauiCrud.MVVM.View.ClientePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:MAUICRUD.MVVM.ViewModels"
+    xmlns:vm="clr-namespace:MauiCrud.MVVM.ViewModels"
     Title="Clientes">
     <ScrollView
         Padding="0,10,0,0"
@@ -22,16 +22,14 @@
                 VerticalOptions="Center" />
             <HorizontalStackLayout>
                 <Editor
-                    x:Name="codigo"
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
                     MaximumHeightRequest="70"
                     MinimumWidthRequest="100"
                     Placeholder="Código"
-                    Text="{Binding ClienteAtual.Codigo}" />
+                    Text="{Binding ClienteAtual.Code}" />
 
                 <Editor
-                    x:Name="nome"
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
                     MaximumHeightRequest="70"
@@ -41,31 +39,28 @@
             </HorizontalStackLayout>
             <HorizontalStackLayout>
                 <Editor
-                    x:Name="cEP"
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
                     MaximumHeightRequest="70"
                     MinimumWidthRequest="120"
-                    Placeholder="CEP"
-                    Text="{Binding ClienteAtual.CEP, Mode=TwoWay}" />
+                    Placeholder="Cep"
+                    Text="{Binding ClienteAtual.Cep, Mode=TwoWay}" />
                 <Button
                     Margin="0,0,10,0"
-                    Command="{Binding CEPCommand}"
+                    Command="{Binding CepCommand}"
                     HorizontalOptions="Center"
                     MaximumWidthRequest="130"
                     MinimumWidthRequest="130"
-                    Text="CEP"
+                    Text="Cep"
                     VerticalOptions="Center" />
             </HorizontalStackLayout>
             <Editor
-                x:Name="logradouro"
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
                 MinimumWidthRequest="300"
                 Placeholder="Logradouro"
                 Text="{Binding ClienteAtual.Logradouro, Mode=TwoWay}" />
             <Editor
-                x:Name="complemento"
                 Margin="10,10,0,0"
                 HorizontalOptions="Start"
                 MinimumWidthRequest="100"
@@ -73,34 +68,30 @@
                 Text="{Binding ClienteAtual.Complemento, Mode=TwoWay}" />
             <HorizontalStackLayout Margin="10">
                 <Editor
-                    x:Name="bairro"
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
                     MinimumWidthRequest="200"
                     Placeholder="Bairro"
                     Text="{Binding ClienteAtual.Bairro, Mode=TwoWay}" />
                 <Editor
-                    x:Name="cidade"
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
                     MinimumWidthRequest="200"
                     Placeholder="Cidade"
                     Text="{Binding ClienteAtual.Cidade, Mode=TwoWay}" />
                 <Editor
-                    x:Name="uF"
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
                     MaximumHeightRequest="70"
                     MinimumWidthRequest="100"
-                    Placeholder="UF"
-                    Text="{Binding ClienteAtual.UF, Mode=TwoWay}" />
+                    Placeholder="Uf"
+                    Text="{Binding ClienteAtual.Uf, Mode=TwoWay}" />
                 <Editor
-                    x:Name="iBGE"
                     Margin="10,10,0,0"
                     HorizontalOptions="Start"
                     MinimumWidthRequest="100"
-                    Placeholder="IBGE"
-                    Text="{Binding ClienteAtual.IBGE, Mode=TwoWay}" />
+                    Placeholder="Ibge"
+                    Text="{Binding ClienteAtual.Ibge, Mode=TwoWay}" />
             </HorizontalStackLayout>
             <HorizontalStackLayout Margin="10,0,0,0" HorizontalOptions="StartAndExpand">
                 <Button
@@ -158,7 +149,7 @@
                             </SwipeView.LeftItems>-->
                             <Grid ColumnDefinitions=".4*,.6*">
 
-                                <Label Grid.Column="0" Text="{Binding Codigo}" />
+                                <Label Grid.Column="0" Text="{Binding Code}" />
                                 <Label Grid.Column="1" Text="{Binding Nome}" />
                                 <Button
                                     Grid.Column="2"
