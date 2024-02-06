@@ -6,7 +6,7 @@ namespace MauiCrud.SQLite.Models
     public class Produto
     {
         [PrimaryKey, AutoIncrement]
-        public int Code { get; set; }
+        public long Code { get; set; }
         [MaxLength(200), NotNull]
         public string Description { get; set; } = string.Empty;
         [NotNull]

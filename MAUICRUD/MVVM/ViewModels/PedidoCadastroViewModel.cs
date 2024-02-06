@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Input;
-using MauiCrud.MVVM.Models;
 using MauiCrud.MVVM.View;
 using MauiCrud.Service;
 using MauiCrud.SQLite.Models;
+using System.Collections.ObjectModel;
 
 namespace MauiCrud.MVVM.ViewModels
 {
@@ -13,69 +13,210 @@ namespace MauiCrud.MVVM.ViewModels
         private readonly IErrorService? _errorService;
 
         [ObservableProperty]
-        private List<PedidoItem>? _pedidoItens = [];
+        private ObservableCollection<PedidoItemViewModel>? _pedidoItens;
 
         [ObservableProperty]
-        private PedidoVm? _pedidoAtual;
+        private Pedido? _pedidoAtual;
 
         [ObservableProperty]
-        private PedidoItem? _pedidoItemAtual;
+        private PedidoItemViewModel? _pedidoItemAtual;
 
         [ObservableProperty]
-        private int _codeCliente;
+        private long _codeCliente;
         [ObservableProperty]
-        private string _nomeCliente = string.Empty;
+        private string _nameCliente = string.Empty;
         [ObservableProperty]
-        private int _codeProduto;
+        private long _codeProduto;
         [ObservableProperty]
-        private string _descriptionProduto = string.Empty;
+        private string _productDescription = string.Empty;
         [ObservableProperty]
         private double _unitPrice;
         [ObservableProperty]
-        private double _quantidade;
+        private double _quantity;
         [ObservableProperty]
-        private double _pesoLiquido;
+        private double _netWeight;
         [ObservableProperty]
         private bool _isRefreshing;
+        [ObservableProperty]
+        private long _nrOrder;
+        [ObservableProperty]
+        private int _lineId;
+        [ObservableProperty]
+        private DateTime _emissionData;
+        [ObservableProperty]
+        private double _totalPrice;
+        [ObservableProperty]
+        private double _totalWeight;
         public ICommand? SairCommand { get; set; }
         public ICommand? SalvarCadastroCommand { get; set; }
         public ICommand? ConsultarClienteCommand { get; set; }
         public ICommand? ConsultarProdutoCommand { get; set; }
         public ICommand? SalvarProdutoCommand { get; set; }
         public ICommand? NovoProdutoCommand { get; set; }
-        public PedidoCadastroViewModel(IDbService repository, INavigation navigation, IErrorService errorService)
+        private void SetPedidoAtual()
+        {
+            PedidoAtual = new()
+            {
+                NrOrder = NrOrder,
+                EmissionData = EmissionData,
+                CodeCliente = CodeCliente,
+                NameCliente = NameCliente,
+                TotalPrice = TotalPrice,
+                //PedidoAtual.UnitPrice = UnitPrice;
+                TotalWeight = TotalWeight
+            };
+        }
+
+        partial void OnPedidoItemAtualChanged(global::MauiCrud.MVVM.ViewModels.PedidoItemViewModel? value)
+        {
+            if (value != null)
+            {
+                //NrOrder = value.NrOrder;
+                UnitPrice = value.UnitPrice;
+                ProductDescription = value.ProductDescription;
+                Quantity = value.Quantity;
+                NetWeight = value.NetWeight;
+                //CodeClienteodePedidoItem = value.CodePedidoItem;
+                CodeProduto = value.CodeProduto;
+                //TotalPrice = value.TotalPrice;
+                //TotalWeight = value.TotalWeight;
+                LineId=value.LineId;
+            }
+        }
+        partial void OnQuantityChanged(double value)
+        {
+            TotalPrice = Quantity * UnitPrice;
+        }
+
+        public PedidoCadastroViewModel(IDbService repository, INavigation navigation, IErrorService errorService, long nrPedido)
         {
             try
             {
                 _navigation = navigation;
                 _errorService = errorService;
-                PedidoAtual = new PedidoVm();
-                PedidoItemAtual = new PedidoItem();
+                PedidoAtual = new Pedido();
+                PedidoItemAtual = new PedidoItemViewModel();
                 PedidoItens = [];
-                SairCommand = new Command(async () =>
+
+                async void CarregarPedido()
+                {
+                    try
+                    {
+                        if (nrPedido > 0)
+                        {
+                            PedidoAtual = await repository.GetPedidoById(nrPedido);
+                            NrOrder = PedidoAtual.NrOrder;
+                            EmissionData = PedidoAtual.EmissionData;
+                            CodeCliente = PedidoAtual.CodeCliente;
+                            NameCliente = PedidoAtual.NameCliente;
+                            TotalPrice = PedidoAtual.TotalPrice;
+                            TotalWeight = PedidoAtual.TotalWeight;
+
+
+                            List<PedidoItem> lstPedidoItem=await repository.GetPedidoItemByNrOrder(NrOrder);
+                            foreach (PedidoItem item in lstPedidoItem)
+                            {
+                                PedidoItens.Add(new PedidoItemViewModel()
+                                {
+                                    NrOrder= item.NrOrder,
+                                    UnitPrice = item.UnitPrice,
+                                    ProductDescription = item.ProductDescription,
+                                    Quantity = item.Quantity,
+                                    NetWeight = item.NetWeight,
+                                    CodePedidoItem = item.CodePedidoItem,
+                                    CodeProduto = item.CodeProduto,
+                                    TotalPrice = item.TotalPrice,
+                                    TotalWeight = item.TotalWeight,
+                                    LineId = item.LineId
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+
+                CarregarPedido();
+                async void Save()
+                {
+                    try
+                    {
+                        SetPedidoAtual();
+                        await repository.InicializeAsync();
+                        List<PedidoItem> lstPedidoItem = [];
+                        foreach (PedidoItemViewModel pedidoItemViewModel in PedidoItens)
+                        {
+                            lstPedidoItem.Add(new PedidoItem()
+                            {
+                                NrOrder=pedidoItemViewModel.NrOrder,
+                                UnitPrice = pedidoItemViewModel.UnitPrice,
+                                ProductDescription = pedidoItemViewModel.ProductDescription,
+                                Quantity = pedidoItemViewModel.Quantity,
+                                NetWeight = pedidoItemViewModel.NetWeight,
+                                TotalWeight = pedidoItemViewModel.TotalWeight,
+                                TotalPrice = pedidoItemViewModel.TotalPrice,
+                                CodePedidoItem=pedidoItemViewModel.CodePedidoItem,
+                                CodeProduto = pedidoItemViewModel.CodeProduto,
+                                LineId = pedidoItemViewModel.LineId
+                                
+                            });
+                        }
+                        //if (PedidoAtual.NrOrder>0)
+                        //{
+                            await repository.SalvarPedidoCompleto(PedidoAtual, lstPedidoItem);
+                            //await repository.UpdatePedido(PedidoAtual);
+                        //}
+                        //else
+                        //{
+                            //await repository.AddPedido(PedidoAtual);
+                        //}
+                        //var i =await repository.AddPedido(PedidoAtual);
+                        //await repository.
+                        //await Refresh(repository);
+                        //PedidoAtual = new Pedido();
+                        //ClearFields();
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+                SalvarCadastroCommand = new Command(Save);
+                async void Sair()
                 {
                     try
                     {
                         MenuPage page = new(repository, errorService);
-                        await _navigation.PushModalAsync(page);
+                        await navigation.PushModalAsync(page);
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
-                });
+                }
+                SairCommand = new Command(Sair);
+
                 ConsultarClienteCommand = new Command(async () =>
                 {
                     try
                     {
-                        Cliente oCliente = await repository.GetClienteById(CodeCliente);
-                        CodeCliente = oCliente.Code;
-                        NomeCliente = oCliente.Nome;
+                        Cliente? oCliente = await repository.GetClienteById(CodeCliente);
+                        if (oCliente is null)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", $"Cliente não Encontrado", "OK");
+                        }
+                        else
+                        {
+                            CodeCliente = oCliente.Code;
+                            NameCliente = oCliente.Nome;
+                        }
+
                         //PedidoAtual = new PedidoVM()
                         //{
                         //    _codeCliente = oCliente.Code,
-                        //    NameClient = oCliente.Nome
+                        //    NameCliente = oCliente.Nome
                         //};
                     }
                     catch (Exception ex)
@@ -90,19 +231,18 @@ namespace MauiCrud.MVVM.ViewModels
                     {
                         Produto oProduto = await repository.GetProdutoById(CodeProduto);
                         CodeProduto = oProduto.Code;
-                        DescriptionProduto = oProduto.Description;
+                        ProductDescription = oProduto.Description;
                         UnitPrice = oProduto.UnitPrice;
-                        Quantidade = 1;
-                        PesoLiquido = oProduto.NetWeight;
+                        Quantity = 1;
+                        NetWeight = oProduto.NetWeight;
                         //PedidoAtual = new PedidoVM()
                         //{
                         //    _codeCliente = oCliente.Code,
-                        //    NameClient = oCliente.Nome
+                        //    NameCliente = oCliente.Nome
                         //};
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
                 });
@@ -112,26 +252,44 @@ namespace MauiCrud.MVVM.ViewModels
                     try
                     {
                         IsRefreshing = true;
-                        PedidoItem oPedidoItem = new()
+                        if (this.LineId>0)
                         {
-                            CodeProduto = this.CodeProduto,
-                            ProductDescription = this.DescriptionProduto,
-                            UnitPrice = this.UnitPrice,
-                            Quantity = this.Quantidade,
-                            NetWeight = this.PesoLiquido
-                        };
-                        PedidoItens.Add(oPedidoItem);
-                        //PedidoItens = PedidoItens;
-                        //    Produto oProduto = await repository.GetProdutoById(CodeProduto);
-                        //    CodeProduto = oProduto.Code;
-                        //    ProductDescription = oProduto.Description;
-                        //    UnitPrice = oProduto.UnitPrice;
-                        //    Quantity = 1;
-                        //    //PedidoAtual = new PedidoVM()
-                        //    //{
-                        //    //    _codeCliente = oCliente.Code,
-                        //    //    NameClient = oCliente.Nome
-                        //    //};
+                            PedidoItemViewModel oPedidoItem = new()
+                            {
+                                CodeProduto = this.CodeProduto,
+                                ProductDescription = this.ProductDescription,
+                                UnitPrice = this.UnitPrice,
+                                Quantity = this.Quantity,
+                                NetWeight = this.NetWeight,
+                                TotalPrice = this.UnitPrice * this.Quantity,
+                                TotalWeight = this.NetWeight * this.Quantity,
+                                LineId = this.LineId,
+                                CodePedidoItem = PedidoItemAtual.CodePedidoItem
+
+                            };
+                            PedidoItens[PedidoItens.IndexOf(PedidoItens.First(a => a.LineId == this.LineId))] =
+                                oPedidoItem;
+                            //
+                        }
+                        else
+                        {
+                            PedidoItemViewModel oPedidoItem = new()
+                            {
+                                CodeProduto = this.CodeProduto,
+                                ProductDescription = this.ProductDescription,
+                                UnitPrice = this.UnitPrice,
+                                Quantity = this.Quantity,
+                                NetWeight = this.NetWeight,
+                                TotalPrice = this.UnitPrice * this.Quantity,
+                                TotalWeight = this.NetWeight * this.Quantity,
+                                LineId = PedidoItens.Count + 1
+
+                            };
+                            PedidoItens.Add(oPedidoItem);
+                        }
+
+                        CleanProductFields();
+                        CalcTotals();
                         IsRefreshing = false;
                     }
                     catch (Exception ex)
@@ -147,5 +305,28 @@ namespace MauiCrud.MVVM.ViewModels
             }
         }
 
+        private void CleanProductFields()
+        {
+            this.CodeProduto = 0;
+            this.ProductDescription = string.Empty;
+            this.UnitPrice = 0;
+            this.Quantity = 0;
+            this.NetWeight = 0;
+            this.LineId = 0;
+        }
+
+        private void CalcTotals()
+        {
+            double dTotalPrice = 0;
+            double dTotalWeight = 0;
+            foreach (PedidoItemViewModel item in PedidoItens)
+            {
+                dTotalPrice = dTotalPrice + item.TotalPrice;
+                dTotalWeight = dTotalWeight + item.TotalWeight;
+            }
+
+            TotalPrice = dTotalPrice;
+            TotalWeight = dTotalWeight;
+        }
     }
 }

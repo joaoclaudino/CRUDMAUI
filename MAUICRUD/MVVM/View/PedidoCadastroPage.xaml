@@ -4,9 +4,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
+    xmlns:sfgrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
     Title="Cadastro de Pedidos">
-    <Grid BackgroundColor="White" RowDefinitions="Auto,*">
-        <FlexLayout BackgroundColor="Green" Wrap="Wrap">
+    <Grid BackgroundColor="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="405" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <FlexLayout
+            Grid.Column="0"
+            BackgroundColor="Green"
+            Wrap="Wrap">
             <VerticalStackLayout>
                 <HorizontalStackLayout>
                     <Button
@@ -22,102 +30,203 @@
                 </HorizontalStackLayout>
                 <VerticalStackLayout>
                     <HorizontalStackLayout>
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="100"
-                            Placeholder="Número do Pedido"
-                            Text="{Binding PedidoAtual.NrPedido, Mode=TwoWay}" />
-                        <Label
-                            Margin="10,10,0,0"
-                            BackgroundColor="AliceBlue"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="95"
-                            Text="Data de Emissão" />
-                        <DatePicker Date="{Binding PedidoAtual.EmissionData, Mode=TwoWay}" />
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Número do Pedido" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                IsReadOnly="True"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Número do Pedido"
+                                Text="{Binding NrOrder, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Data de Emissão" />
+                            <DatePicker
+                                x:Name="fimPicker"
+                                Margin="10,0,0,0"
+                                Date="{Binding EmissionData}"
+                                Format="dd/MM/yyyy"
+                                HorizontalOptions="StartAndExpand"
+                                VerticalOptions="StartAndExpand" />
+                        </VerticalStackLayout>
 
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="100"
-                            Placeholder="Código do Cliente"
-                            Text="{Binding CodeCliente, Mode=TwoWay}" />
+
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Código do Cliente" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Código do Cliente"
+                                Text="{Binding CodeCliente, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+
                         <Button
                             Margin="10,10,0,10"
                             BackgroundColor="Red"
                             Command="{Binding ConsultarClienteCommand}"
                             Text="Consultar" />
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="300"
-                            Placeholder="Nome do Cliente"
-                            Text="{Binding NameClient, Mode=TwoWay}" />
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Preço Total" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                IsReadOnly="True"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="300"
+                                Placeholder="Nome do Cliente"
+                                Text="{Binding NameCliente, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="100"
-                            Placeholder="Preço Total"
-                            Text="{Binding PedidoAtual.TotalPrice, Mode=TwoWay}" />
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="300"
-                            Placeholder="TotalWeight"
-                            Text="{Binding ClienteAtual.TotalWeight, Mode=TwoWay}" />
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Preço Total" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Preço Total"
+                                Text="{Binding TotalPrice, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Total Weight" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                IsReadOnly="True"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="300"
+                                Placeholder="Total Weight"
+                                Text="{Binding TotalWeight, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout BackgroundColor="OrangeRed">
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="100"
-                            Placeholder="Código do Produto"
-                            Text="{Binding CodeProduto, Mode=TwoWay}" />
+                        <VerticalStackLayout>
+
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Código do Produto" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Código do Produto"
+                                Text="{Binding CodeProduto, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+
                         <Button
                             Margin="10,10,0,10"
                             BackgroundColor="Blue"
                             Command="{Binding ConsultarProdutoCommand}"
                             Text="Consultar" />
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="150"
-                            Placeholder="Descrição do Produto"
-                            Text="{Binding ProductDescription, Mode=TwoWay}" />
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="100"
-                            Placeholder="Quantity"
-                            Text="{Binding Quantity, Mode=TwoWay}" />
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="100"
-                            Placeholder="Preço"
-                            Text="{Binding UnitPrice, Mode=TwoWay}" />
-                        <Editor
-                            Margin="10,10,0,0"
-                            HorizontalOptions="Start"
-                            MaximumHeightRequest="70"
-                            MinimumWidthRequest="100"
-                            Placeholder="Peso Líquido"
-                            Text="{Binding NetWeight, Mode=TwoWay}" />
+                        <VerticalStackLayout>
+                            botão deletar item
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Descrição do Produto" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="150"
+                                Placeholder="Descrição do Produto"
+                                Text="{Binding ProductDescription, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Quantity" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Quantity"
+                                Text="{Binding Quantity, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Preço" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Preço"
+                                Text="{Binding UnitPrice, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Peso Líquido" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Peso Líquido"
+                                Text="{Binding NetWeight, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="10,10,0,0"
+                                BackgroundColor="AliceBlue"
+                                HorizontalOptions="Start"
+                                Text="Line Id" />
+                            <Editor
+                                Margin="10,10,0,0"
+                                HorizontalOptions="Start"
+                                MaximumHeightRequest="70"
+                                MinimumWidthRequest="100"
+                                Placeholder="Peso Líquido"
+                                Text="{Binding LineId, Mode=TwoWay}" />
+                        </VerticalStackLayout>
                         <Button
                             Margin="10,10,0,10"
                             BackgroundColor="Brown"
@@ -132,63 +241,99 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </FlexLayout>
-
-        <dg:DataGrid
+        <sfgrid:SfDataGrid
             Grid.Row="1"
-            ActiveRowColor="Orange"
-            BorderColor="Blue"
-            FooterBackground="Red"
-            HeaderBackground="MediumPurple"
-            HeaderBordersVisible="True"
-            HeaderHeight="50"
-            IsRefreshing="{Binding IsRefreshing}"
-            ItemsSource="{Binding PedidoItens}"
-            PageSize="5"
-            PaginationEnabled="True"
-            PullToRefreshCommand="{Binding RefreshCommand}"
-            RowHeight="70"
-            SelectedItem="{Binding PedidoItemAtual}"
-            SelectionEnabled="True">
-            <dg:DataGrid.Columns>
+            AllowEditing="True"
+            ColumnWidthMode="Fill"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            HorizontalScrollBarVisibility="Always"
+            ItemsSource="{Binding PedidoItens, Mode=TwoWay}"
+            SelectedRow="{Binding PedidoItemAtual, Mode=TwoWay}"
+            SelectionMode="Single"
+            VerticalScrollBarVisibility="Always">
 
-                <dg:DataGridColumn
-                    Title="Código Item"
-                    Width="100"
-                    PropertyName="CodePedidoItem" />
-                <dg:DataGridColumn
-                    Title="Nr Pedido"
-                    Width="0.5*"
-                    PropertyName="NrPedido" />
-                <dg:DataGridColumn
-                    Title="Código Produto"
-                    Width="0.5*"
-                    PropertyName="CodeProduto" />
-                <dg:DataGridColumn
-                    Title="Descrição Produto"
-                    Width="0.5*"
-                    PropertyName="ProductDescription" />
-                <dg:DataGridColumn
-                    Title="Quantity"
-                    Width="0.5*"
-                    PropertyName="Quantity" />
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:DataGridTextColumn
+                    AllowEditing="False"
+                    HeaderText="CodePedidoItem"
+                    MappingName="CodePedidoItem" />
+                <sfgrid:DataGridTextColumn
+                    AllowEditing="False"
+                    HeaderText="NrOrder"
+                    MappingName="NrOrder" />
+                <sfgrid:DataGridTextColumn
+                    AllowEditing="False"
+                    HeaderText="CodeProduto"
+                    MappingName="CodeProduto" />
+                <sfgrid:DataGridTextColumn
+                    AllowEditing="False"
+                    HeaderText="ProductDescription"
+                    MappingName="ProductDescription" />
+                <!--<sfgrid:DataGridTextColumn HeaderText="Quantity" MappingName="Quantity" />-->
+                <sfgrid:DataGridNumericColumn HeaderText="Quantity" MappingName="Quantity" />
+                <sfgrid:DataGridNumericColumn
+                    Format="C"
+                    HeaderText="UnitPrice"
+                    MappingName="UnitPrice" />
+                <!--<sfgrid:DataGridTextColumn HeaderText="UnitPrice" MappingName="UnitPrice" />-->
+                <sfgrid:DataGridTextColumn
+                    AllowEditing="False"
+                    HeaderText="NetWeight"
+                    MappingName="NetWeight" />
+                <sfgrid:DataGridTextColumn
+                    AllowEditing="False"
+                    HeaderText="TotalPrice"
+                    MappingName="TotalPrice" />
+                <sfgrid:DataGridTextColumn
+                    AllowEditing="False"
+                    HeaderText="TotalWeight"
+                    MappingName="TotalWeight" />
+            </sfgrid:SfDataGrid.Columns>
 
-                <dg:DataGridColumn
-                    Title="Preço Unitário"
-                    Width="0.5*"
-                    PropertyName="UnitPrice" />
-                <dg:DataGridColumn
-                    Title="NetWeight"
-                    Width="0.5*"
-                    PropertyName="NetWeight" />
-                <!--<dg:DataGridColumn Title="Win %" PropertyName="Percentage" Width="0.75*" StringFormat="{}{0:0.00}" />-->
-            </dg:DataGrid.Columns>
-            <dg:DataGrid.RowsBackgroundColorPalette>
-                <dg:PaletteCollection>
-                    <Color>#F2F2F2</Color>
-                    <Color>#FFFFFF</Color>
-                </dg:PaletteCollection>
-            </dg:DataGrid.RowsBackgroundColorPalette>
-        </dg:DataGrid>
+            <!--<sfgrid:SfDataGrid.GroupSummaryRows>
+                <sfgrid:DataGridSummaryRow Title="Total Price : {PriceAmount} " ShowSummaryInRow="True">
+                    <sfgrid:DataGridSummaryRow.SummaryColumns>
+                        <sfgrid:DataGridSummaryColumn
+                            Name="PriceAmount"
+                            Format="{}{Sum:c}"
+                            MappingName="TotalPrice"
+                            SummaryType="DoubleAggregate" />
+                    </sfgrid:DataGridSummaryRow.SummaryColumns>
+                </sfgrid:DataGridSummaryRow>
+            </sfgrid:SfDataGrid.GroupSummaryRows>-->
+
+            <sfgrid:SfDataGrid.TableSummaryRows>
+                <!--<sfgrid:DataGridTableSummaryRow Title="Total Order Count: {OrderCount}"
+                                                    Position="Top"
+                                                    ShowSummaryInRow="True">
+                    <sfgrid:DataGridTableSummaryRow.SummaryColumns>
+                        <sfgrid:DataGridSummaryColumn Name="OrderCount"
+                                                          Format="{}{Count}"
+                                                          MappingName="OrderID"
+                                                          SummaryType="CountAggregate" />
+                    </sfgrid:DataGridTableSummaryRow.SummaryColumns>
+                </sfgrid:DataGridTableSummaryRow>-->
+                <sfgrid:DataGridTableSummaryRow
+                    Title="Sum: {SumTotalPrice}"
+                    Position="Bottom"
+                    ShowSummaryInRow="False">
+                    <sfgrid:DataGridTableSummaryRow.SummaryColumns>
+                        <sfgrid:DataGridSummaryColumn
+                            Name="SumTotalWeight"
+                            Format="Sum: {Sum:C0}"
+                            MappingName="TotalWeight"
+                            SummaryType="DoubleAggregate" />
+                        <sfgrid:DataGridSummaryColumn
+                            Name="Sum"
+                            Format="Sum: {Sum:C0}"
+                            MappingName="TotalPrice"
+                            SummaryType="DoubleAggregate" />
+                    </sfgrid:DataGridTableSummaryRow.SummaryColumns>
+                </sfgrid:DataGridTableSummaryRow>
+            </sfgrid:SfDataGrid.TableSummaryRows>
+        </sfgrid:SfDataGrid>
+
     </Grid>
 
 </ContentPage>

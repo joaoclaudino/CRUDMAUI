@@ -4,9 +4,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
+    xmlns:sfgrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
     Title="Pedidos">
-    <Grid BackgroundColor="White" RowDefinitions="Auto,*">
-        <FlexLayout BackgroundColor="Black" Wrap="Wrap">
+    <Grid BackgroundColor="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <FlexLayout
+            Grid.Column="0"
+            BackgroundColor="Black"
+            Wrap="Wrap">
             <Button
                 Margin="10,10,0,10"
                 BackgroundColor="DarkBlue"
@@ -15,7 +23,7 @@
             <Button
                 Margin="10,10,0,10"
                 BackgroundColor="#F01919"
-                Command="{Binding SairCommand}"
+                Command="{Binding UpdateCommand}"
                 Text="Alterar" />
             <Button
                 Margin="10,10,0,10"
@@ -29,58 +37,43 @@
                 Command="{Binding SairCommand}"
                 Text="Sair" />
         </FlexLayout>
-
-        <dg:DataGrid
+        <sfgrid:SfDataGrid
             Grid.Row="1"
-            ActiveRowColor="Orange"
-            BorderColor="Blue"
-            FooterBackground="Red"
-            HeaderBackground="MediumPurple"
-            HeaderBordersVisible="True"
-            HeaderHeight="50"
-            IsRefreshing="{Binding IsRefreshing}"
+            AutoGenerateColumnsMode="None"
+            ColumnWidthMode="Fill"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            HorizontalScrollBarVisibility="Always"
             ItemsSource="{Binding Pedidos}"
-            PageSize="5"
-            PaginationEnabled="True"
-            PullToRefreshCommand="{Binding RefreshCommand}"
-            RowHeight="70"
-            SelectedItem="{Binding SelectedTeam}"
-            SelectionEnabled="True">
-            <dg:DataGrid.Columns>
+            SelectedRow="{Binding PedidoAtual}"
+            SelectionMode="Single"
+            VerticalScrollBarVisibility="Always">
 
-                <dg:DataGridColumn
-                    Title="Nr Pedido"
-                    Width="100"
-                    PropertyName="NrPedido" />
-                <dg:DataGridColumn
-                    Title="Data Emissao"
-                    Width="0.5*"
-                    PropertyName="EmissionData" />
-                <dg:DataGridColumn
-                    Title="Code Cliente"
-                    Width="0.5*"
-                    PropertyName="_codeCliente" />
-                <dg:DataGridColumn
-                    Title="Nome Cliente"
-                    Width="0.5*"
-                    PropertyName="NameClient" />
-                <dg:DataGridColumn
-                    Title="Preço Total"
-                    Width="0.5*"
-                    PropertyName="TotalPrice" />
-                <dg:DataGridColumn
-                    Title="Peso Total"
-                    Width="0.5*"
-                    PropertyName="TotalWeight" />
-                <!--<dg:DataGridColumn Title="Win %" PropertyName="Percentage" Width="0.75*" StringFormat="{}{0:0.00}" />-->
-            </dg:DataGrid.Columns>
-            <dg:DataGrid.RowsBackgroundColorPalette>
-                <dg:PaletteCollection>
-                    <Color>#F2F2F2</Color>
-                    <Color>#FFFFFF</Color>
-                </dg:PaletteCollection>
-            </dg:DataGrid.RowsBackgroundColorPalette>
-        </dg:DataGrid>
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:DataGridTextColumn HeaderText="Nr Order" MappingName="NrOrder" />
+                <sfgrid:DataGridTextColumn
+                    Format="dd/MM/yyyy"
+                    HeaderText="Emisssão"
+                    MappingName="EmissionData" />
+
+                <sfgrid:DataGridTextColumn HeaderText="Código Cliente" MappingName="CodeCliente" />
+                <sfgrid:DataGridTextColumn HeaderText="Nome Cliente" MappingName="NameCliente" />
+                <sfgrid:DataGridNumericColumn
+                    Format="C"
+                    HeaderText="Preço Total"
+                    MappingName="TotalPrice" />
+                <sfgrid:DataGridNumericColumn
+                    Format="N"
+                    HeaderText="Peso Total"
+                    MappingName="TotalWeight" />
+                <!--<sfgrid:DataGridNumericColumn Format="d" MinimumWidth="{StaticResource customerIdMinimumWidth}" MappingName="EmployeeID" HeaderText="Customer ID"/>
+                <sfgrid:DataGridTextColumn MinimumWidth="{StaticResource nameMinimumWidth}" MappingName="FirstName" HeaderText="Name"/>
+                <sfgrid:DataGridNumericColumn MinimumWidth="{StaticResource minimumWidth}" Format="C" HeaderText="Freight" MappingName="Freight"/>
+                <sfgrid:DataGridTextColumn MinimumWidth="{StaticResource minimumWidth}" MappingName="ShipCity" HeaderText="City"/>
+                <sfgrid:DataGridNumericColumn MinimumWidth="{StaticResource minimumWidth}" Format="C" HeaderText="Price" MappingName="Price"/>-->
+            </sfgrid:SfDataGrid.Columns>
+
+        </sfgrid:SfDataGrid>
     </Grid>
 
 </ContentPage>

@@ -18,7 +18,7 @@ namespace MauiCrud.MVVM.ViewModels
         [ObservableProperty]
         private bool _isLoading;
         [ObservableProperty]
-        private int _code;
+        private long _code;
         [ObservableProperty]
         private string _nome = String.Empty;
         [ObservableProperty]

@@ -6,13 +6,13 @@ namespace MauiCrud.SQLite.Models
     public class Pedido
     {
         [PrimaryKey, AutoIncrement]
-        public int NrPedido { get; set; }
+        public long NrOrder { get; set; }
         [NotNull]
         public DateTime EmissionData { get; set; }
         [NotNull]
-        public int CodeCliente { get; set; }
+        public long CodeCliente { get; set; }
         [MaxLength(200), NotNull]
-        public string NameClient { get; set; } = string.Empty;
+        public string NameCliente { get; set; } = string.Empty;
         [NotNull]
         public double TotalPrice { get; set; }
         [NotNull]

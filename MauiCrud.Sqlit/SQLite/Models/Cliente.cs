@@ -6,7 +6,7 @@ namespace MauiCrud.SQLite.Models
     public class Cliente
     {
         [PrimaryKey, AutoIncrement]
-        public int Code { get; set; }
+        public long Code { get; set; }
         [MaxLength(200), NotNull]
         public string Nome { get; set; } = string.Empty;
         [MaxLength(10), NotNull]

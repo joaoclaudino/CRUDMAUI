@@ -29,7 +29,25 @@ namespace MauiCrud.MVVM.ViewModels
                 _navigation = navigation;
                 _errorService = errorService;
                 PedidoAtual = new Pedido();
-                AddCommand = new Command(async () =>
+                async void Updt()
+                {
+                    try
+                    {
+                        if (PedidoAtual.NrOrder>0)
+                        {
+                            PedidoCadastroPage page = new(repository, errorService,PedidoAtual.NrOrder);
+                            await _navigation.PushModalAsync(page);
+                        }
+                        //PedidoCadastroPage page = new(repository, errorService);
+                        //await _navigation.PushModalAsync(page);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorService.HandleError(ex);
+                    }
+                }
+                UpdateCommand = new Command(Updt);
+                async void Add()
                 {
                     try
                     {
@@ -38,26 +56,26 @@ namespace MauiCrud.MVVM.ViewModels
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
+                }
+                AddCommand = new Command(Add);
 
-                });
-                SairCommand = new Command(async () =>
+                async void Sair()
                 {
                     try
                     {
                         MenuPage page = new(repository, errorService);
-                        await _navigation.PushModalAsync(page);
+                        await navigation.PushModalAsync(page);
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
+                }
+                SairCommand = new Command(Sair);
 
-                });
-                DisplayCommand = new Command(async () =>
+                async void Display()
                 {
                     try
                     {
@@ -66,11 +84,10 @@ namespace MauiCrud.MVVM.ViewModels
                     }
                     catch (Exception ex)
                     {
-
                         errorService.HandleError(ex);
                     }
-
-                });
+                }
+                DisplayCommand = new Command(Display);
                 DisplayCommand.Execute(null);
             }
             catch (Exception ex)

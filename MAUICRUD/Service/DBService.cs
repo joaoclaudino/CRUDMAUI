@@ -1,6 +1,7 @@
 ﻿
 using MauiCrud.SQLite.Models;
 using SQLite;
+using SQLitePCL;
 
 
 namespace MauiCrud.Service
@@ -19,7 +20,46 @@ namespace MauiCrud.Service
             await EnsureDbConnection();
             return await _dbConnection.InsertAsync(pedido);
         }
+        //public int GetLastInsertId()
+        //{
+        //    return (int)SQLite3.LastInsertRowid(_dbConnection);
+        //}
 
+        private long GetLastInsertRowId(SQLiteConnection connection)
+        {
+            var handle = connection.Handle ?? throw new NullReferenceException("The connection is not open.");
+            return raw.sqlite3_last_insert_rowid(handle);
+        }
+        public async Task<int> SalvarPedidoCompleto(Pedido pedido, List<PedidoItem> itens)
+        {
+            await _dbConnection.RunInTransactionAsync(async (SQLiteConnection connection) =>
+            {
+                if (pedido.NrOrder > 0)
+                {
+                    var i = connection.Update(pedido);
+                }
+                else
+                {
+                    var i =  connection.Insert(pedido);
+                    //var l= connection.LastInsertRowId;
+                    long id = GetLastInsertRowId(connection);
+                        Pedido oPedido = await GetPedidoById(id);
+                        pedido.NrOrder = oPedido.NrOrder;
+                }
+                    
+                foreach (PedidoItem _pedidoItem in itens)
+                {
+                    _pedidoItem.NrOrder = pedido.NrOrder;
+                    var result = connection.Update(_pedidoItem);
+                    if (result==0)
+                    {
+                        connection.Insert(_pedidoItem);
+                    }
+
+                }
+            });
+            return 1;
+        }
         public async Task<int> AddPedidoItem(PedidoItem pedidoItem)
         {
             return await _dbConnection.InsertAsync(pedidoItem);
@@ -27,6 +67,7 @@ namespace MauiCrud.Service
 
         public async Task<int> AddProduto(Produto produto)
         {
+            //_dbConnection.RunInTransactionAsync()
             return await _dbConnection.InsertAsync(produto);
         }
 
@@ -50,7 +91,7 @@ namespace MauiCrud.Service
             return await _dbConnection.DeleteAsync(produto);
         }
 
-        public async Task<Cliente> GetClienteById(int codeCliente)
+        public async Task<Cliente> GetClienteById(long codeCliente)
         {
             return await _dbConnection.Table<Cliente>().FirstOrDefaultAsync(x => x.Code == codeCliente);
         }
@@ -60,14 +101,18 @@ namespace MauiCrud.Service
             return await _dbConnection.Table<Cliente>().ToListAsync();
         }
 
-        public async Task<Pedido> GetPedidoById(int codePedido)
+        public async Task<Pedido> GetPedidoById(long codePedido)
         {
-            return await _dbConnection.Table<Pedido>().FirstOrDefaultAsync(x => x.NrPedido == codePedido);
+            return await _dbConnection.Table<Pedido>().FirstOrDefaultAsync(x => x.NrOrder == codePedido);
         }
 
-        public async Task<PedidoItem> GetPedidoItemById(int codePedidoItem)
+        public async Task<PedidoItem> GetPedidoItemById(long codePedidoItem)
         {
             return await _dbConnection.Table<PedidoItem>().FirstOrDefaultAsync(x => x.CodePedidoItem == codePedidoItem);
+        }
+        public async Task<List<PedidoItem>> GetPedidoItemByNrOrder(long nrOrder)
+        {
+            return await _dbConnection.Table<PedidoItem>().Where(x => x.NrOrder == nrOrder).ToListAsync();
         }
 
         public async Task<List<PedidoItem>> GetPedidoItems()
@@ -80,7 +125,7 @@ namespace MauiCrud.Service
             return await _dbConnection.Table<Pedido>().ToListAsync();
         }
 
-        public async Task<Produto> GetProdutoById(int codeProduto)
+        public async Task<Produto> GetProdutoById(long codeProduto)
         {
             return await _dbConnection.Table<Produto>().FirstOrDefaultAsync(x => x.Code == codeProduto);
         }
@@ -96,6 +141,8 @@ namespace MauiCrud.Service
             //{
             //    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MauiCrud.db3");
             //    _dbConnection = new SQLiteAsyncConnection(dbPath);
+            //await _dbConnection.DropTableAsync<Pedido>();
+            //await _dbConnection.DropTableAsync<PedidoItem>();
             await _dbConnection.CreateTableAsync<Cliente>();
             await _dbConnection.CreateTableAsync<Produto>();
             await _dbConnection.CreateTableAsync<Pedido>();

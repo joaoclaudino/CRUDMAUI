@@ -8,7 +8,7 @@ namespace MauiCrud
     {
         public App(IDbService dbService, IErrorService errorService)
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF5cXmVCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdgWXZceXVVRWlfVEZzW0s=");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF5cWWBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWX5ecnRcRWNZUkNyXkQ=");
             InitializeComponent();
             var culture = new CultureInfo("pt-BR");
             Thread.CurrentThread.CurrentCulture = culture;

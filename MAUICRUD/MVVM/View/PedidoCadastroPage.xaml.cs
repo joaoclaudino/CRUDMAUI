@@ -8,6 +8,11 @@ public partial class PedidoCadastroPage : ContentPage
     public PedidoCadastroPage(IDbService dbService, IErrorService errorService)
     {
         InitializeComponent();
-        BindingContext = new PedidoCadastroViewModel(dbService, Navigation, errorService);
+        BindingContext = new PedidoCadastroViewModel(dbService, Navigation, errorService,0);
+    }
+    public PedidoCadastroPage(IDbService dbService, IErrorService errorService,long nrPedido)
+    {
+        InitializeComponent();
+        BindingContext = new PedidoCadastroViewModel(dbService, Navigation, errorService, nrPedido);
     }
 }
